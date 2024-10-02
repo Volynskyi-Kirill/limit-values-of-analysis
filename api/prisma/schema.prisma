@@ -1,0 +1,99 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Gender {
+  male
+  female
+}
+
+model Employee {
+  id               Int              @id @default(autoincrement())
+  email            String           @unique
+  password         String
+  roles            EmployeeRole[]
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  createdBy        Employee?        @relation("EmployeeCreatedBy", fields: [createdById], references: [id])
+  createdById      Int?
+  employeesCreated Employee[]       @relation("EmployeeCreatedBy") // Обратное поле для связи createdBy
+  TestType         TestType[]
+  Indicator        Indicator[]
+  IndicatorRange   IndicatorRange[]
+  Test             Test[]
+}
+
+model EmployeeRole {
+  id         Int      @id @default(autoincrement())
+  role       String
+  employeeId Int
+  employee   Employee @relation(fields: [employeeId], references: [id])
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  firstName  String
+  lastName   String
+  patronymic String
+  email      String   @unique
+  gender     Gender
+  birthDate  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  tests      Test[]
+}
+
+model TestType {
+  id          Int         @id @default(autoincrement())
+  name        String      @unique
+  description String?
+  createdBy   Employee?   @relation(fields: [createdById], references: [id])
+  createdById Int?
+  indicators  Indicator[]
+}
+
+model Indicator {
+  id          Int              @id @default(autoincrement())
+  testTypeId  Int
+  testType    TestType         @relation(fields: [testTypeId], references: [id])
+  name        String
+  unit        String
+  description String?
+  createdBy   Employee?        @relation(fields: [createdById], references: [id])
+  createdById Int?
+  ranges      IndicatorRange[]
+}
+
+model IndicatorRange {
+  id          Int       @id @default(autoincrement())
+  indicatorId Int
+  indicator   Indicator @relation(fields: [indicatorId], references: [id])
+  gender      Gender
+  minAge      Int
+  maxAge      Int
+  minValue    Float
+  maxValue    Float
+  createdBy   Employee? @relation(fields: [createdById], references: [id])
+  createdById Int?
+  tests       Test[]
+}
+
+model Test {
+  id               Int            @id @default(autoincrement())
+  userId           Int
+  user             User           @relation(fields: [userId], references: [id])
+  indicatorRangeId Int
+  indicatorRange   IndicatorRange @relation(fields: [indicatorRangeId], references: [id])
+  resultValue      Float
+  status           String // статус: ожидание, анализ, результаты получены
+  testDate         DateTime
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  createdBy        Employee?      @relation(fields: [createdById], references: [id])
+  createdById      Int?
+}
