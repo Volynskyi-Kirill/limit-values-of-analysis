@@ -12,11 +12,17 @@ enum Gender {
   female
 }
 
+enum Role {
+  SUPER_ADMIN @map("super_admin")
+  ADMIN       @map("admin")
+  MED_WORKER  @map("med_worker")
+}
+
 model Employee {
   id              Int              @id @default(autoincrement()) @map("id")
   email           String           @unique @map("email")
   password        String           @map("password")
-  roles           EmployeeRole[]
+  role            Role             @default(MED_WORKER) @map("role")
   createdAt       DateTime         @default(now()) @map("created_at")
   updatedAt       DateTime         @updatedAt @map("updated_at")
   createdBy       Employee?        @relation("EmployeeCreatedBy", fields: [createdById], references: [id])
@@ -28,15 +34,6 @@ model Employee {
   Test            Test[]
 
   @@map("employee")
-}
-
-model EmployeeRole {
-  id         Int      @id @default(autoincrement()) @map("id")
-  role       String   @map("role")
-  employeeId Int      @map("employee_id")
-  employee   Employee @relation(fields: [employeeId], references: [id])
-
-  @@map("employee_role")
 }
 
 model User {

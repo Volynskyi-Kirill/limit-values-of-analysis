@@ -29,25 +29,18 @@ type AdminModuleType = {
               {
                 resource: { model: getModelByName('Employee'), client: prisma },
                 options: {
-                  // properties: {
-                  //   roles: {
-                  //     isArray: true,
-                  //     reference: 'EmployeeRole',
-                  //   },
-                  // },
+                  properties: {
+                    role: {
+                      type: 'string',
+                      availableValues: [
+                        { value: 'SUPER_ADMIN', label: 'супер адмін' },
+                        { value: 'ADMIN', label: 'адмін' },
+                        { value: 'MED_WORKER', label: 'мед працівник' },
+                      ],
+                    },
+                  },
                 },
               },
-              // {
-              //   resource: {
-              //     // model: getModelByName('EmployeeRole'),
-              //     // client: prisma,
-              //   },
-              //   options: {
-              //     // properties: {
-              //     //   role: { isTitle: true },
-              //     // },
-              //   },
-              // },
             ],
           },
         }),
