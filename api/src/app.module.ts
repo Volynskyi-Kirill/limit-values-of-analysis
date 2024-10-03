@@ -28,8 +28,26 @@ type AdminModuleType = {
             resources: [
               {
                 resource: { model: getModelByName('Employee'), client: prisma },
-                options: {},
+                options: {
+                  // properties: {
+                  //   roles: {
+                  //     isArray: true,
+                  //     reference: 'EmployeeRole',
+                  //   },
+                  // },
+                },
               },
+              // {
+              //   resource: {
+              //     // model: getModelByName('EmployeeRole'),
+              //     // client: prisma,
+              //   },
+              //   options: {
+              //     // properties: {
+              //     //   role: { isTitle: true },
+              //     // },
+              //   },
+              // },
             ],
           },
         }),
