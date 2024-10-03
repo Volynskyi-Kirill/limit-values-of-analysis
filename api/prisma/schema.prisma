@@ -26,6 +26,8 @@ model Employee {
   Indicator        Indicator[]
   IndicatorRange   IndicatorRange[]
   Test             Test[]
+
+  @@map("employee")
 }
 
 model EmployeeRole {
@@ -33,6 +35,8 @@ model EmployeeRole {
   role       String
   employeeId Int
   employee   Employee @relation(fields: [employeeId], references: [id])
+
+  @@map("employee_role")
 }
 
 model User {
@@ -46,6 +50,8 @@ model User {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   tests      Test[]
+
+  @@map("user")
 }
 
 model TestType {
@@ -55,6 +61,8 @@ model TestType {
   createdBy   Employee?   @relation(fields: [createdById], references: [id])
   createdById Int?
   indicators  Indicator[]
+
+  @@map("test_type")
 }
 
 model Indicator {
@@ -67,6 +75,8 @@ model Indicator {
   createdBy   Employee?        @relation(fields: [createdById], references: [id])
   createdById Int?
   ranges      IndicatorRange[]
+
+  @@map("indicator")
 }
 
 model IndicatorRange {
@@ -81,6 +91,8 @@ model IndicatorRange {
   createdBy   Employee? @relation(fields: [createdById], references: [id])
   createdById Int?
   tests       Test[]
+
+  @@map("indicator_range")
 }
 
 model Test {
@@ -96,4 +108,6 @@ model Test {
   updatedAt        DateTime       @updatedAt
   createdBy        Employee?      @relation(fields: [createdById], references: [id])
   createdById      Int?
+
+  @@map("test")
 }
