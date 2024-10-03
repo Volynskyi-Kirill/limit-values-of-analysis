@@ -13,87 +13,101 @@ enum Gender {
 }
 
 model Employee {
-  id               Int              @id @default(autoincrement())
-  email            String           @unique
-  password         String
-  roles            EmployeeRole[]
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-  createdBy        Employee?        @relation("EmployeeCreatedBy", fields: [createdById], references: [id])
-  createdById      Int?
-  employeesCreated Employee[]       @relation("EmployeeCreatedBy") // Обратное поле для связи createdBy
-  TestType         TestType[]
-  Indicator        Indicator[]
-  IndicatorRange   IndicatorRange[]
-  Test             Test[]
+  id              Int              @id @default(autoincrement()) @map("id")
+  email           String           @unique @map("email")
+  password        String           @map("password")
+  roles           EmployeeRole[]
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  createdBy       Employee?        @relation("EmployeeCreatedBy", fields: [createdById], references: [id])
+  createdById     Int?             @map("created_by_id")
+  EmployeeCreated Employee[]       @relation("EmployeeCreatedBy")
+  TestType        TestType[]
+  Indicator       Indicator[]
+  IndicatorRange  IndicatorRange[]
+  Test            Test[]
+
+  @@map("employee")
 }
 
 model EmployeeRole {
-  id         Int      @id @default(autoincrement())
-  role       String
-  employeeId Int
+  id         Int      @id @default(autoincrement()) @map("id")
+  role       String   @map("role")
+  employeeId Int      @map("employee_id")
   employee   Employee @relation(fields: [employeeId], references: [id])
+
+  @@map("employee_role")
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  firstName  String
-  lastName   String
-  patronymic String
-  email      String   @unique
-  gender     Gender
-  birthDate  DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id         Int      @id @default(autoincrement()) @map("id")
+  firstName  String   @map("first_name")
+  lastName   String   @map("last_name")
+  patronymic String   @map("patronymic")
+  email      String   @unique @map("email")
+  gender     Gender   @map("gender")
+  birthDate  DateTime @map("birth_date")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
   tests      Test[]
+
+  @@map("user")
 }
 
 model TestType {
-  id          Int         @id @default(autoincrement())
-  name        String      @unique
-  description String?
+  id          Int         @id @default(autoincrement()) @map("id")
+  name        String      @unique @map("name")
+  description String?     @map("description")
   createdBy   Employee?   @relation(fields: [createdById], references: [id])
-  createdById Int?
+  createdById Int?        @map("created_by_id")
   indicators  Indicator[]
+
+  @@map("test_type")
 }
 
 model Indicator {
-  id          Int              @id @default(autoincrement())
-  testTypeId  Int
+  id          Int              @id @default(autoincrement()) @map("id")
+  testTypeId  Int              @map("test_type_id")
   testType    TestType         @relation(fields: [testTypeId], references: [id])
-  name        String
-  unit        String
-  description String?
+  name        String           @map("name")
+  unit        String           @map("unit")
+  description String?          @map("description")
   createdBy   Employee?        @relation(fields: [createdById], references: [id])
-  createdById Int?
+  createdById Int?             @map("created_by_id")
   ranges      IndicatorRange[]
+
+  @@map("indicator")
 }
 
 model IndicatorRange {
-  id          Int       @id @default(autoincrement())
-  indicatorId Int
+  id          Int       @id @default(autoincrement()) @map("id")
+  indicatorId Int       @map("indicator_id")
   indicator   Indicator @relation(fields: [indicatorId], references: [id])
-  gender      Gender
-  minAge      Int
-  maxAge      Int
-  minValue    Float
-  maxValue    Float
+  gender      Gender    @map("gender")
+  minAge      Int       @map("min_age")
+  maxAge      Int       @map("max_age")
+  minValue    Float     @map("min_value")
+  maxValue    Float     @map("max_value")
   createdBy   Employee? @relation(fields: [createdById], references: [id])
-  createdById Int?
+  createdById Int?      @map("created_by_id")
   tests       Test[]
+
+  @@map("indicator_range")
 }
 
 model Test {
-  id               Int            @id @default(autoincrement())
-  userId           Int
+  id               Int            @id @default(autoincrement()) @map("id")
+  userId           Int            @map("user_id")
   user             User           @relation(fields: [userId], references: [id])
-  indicatorRangeId Int
+  indicatorRangeId Int            @map("indicator_range_id")
   indicatorRange   IndicatorRange @relation(fields: [indicatorRangeId], references: [id])
-  resultValue      Float
-  status           String // статус: ожидание, анализ, результаты получены
-  testDate         DateTime
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  resultValue      Float          @map("result_value")
+  status           String         @map("status") // статус: ожидание, анализ, результаты получены
+  testDate         DateTime       @map("test_date")
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime       @updatedAt @map("updated_at")
   createdBy        Employee?      @relation(fields: [createdById], references: [id])
-  createdById      Int?
+  createdById      Int?           @map("created_by_id")
+
+  @@map("test")
 }
