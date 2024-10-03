@@ -3,10 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaService } from './prisma/prisma.service';
 
-type AdminJSType = {
-  registerAdapter: (adapter: any) => void;
-};
-
 type AdminModuleType = {
   createAdminAsync: (options: any) => any;
 };
@@ -14,7 +10,7 @@ type AdminModuleType = {
 @Module({
   imports: [
     (async () => {
-      const AdminJS: AdminJSType = (await import('adminjs')).default;
+      const AdminJS = (await import('adminjs')).default;
       const { Database, Resource, getModelByName } = await import(
         '@adminjs/prisma'
       );
