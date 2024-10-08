@@ -1,12 +1,13 @@
-import { PrismaService } from '../prisma/prisma.service';
-
-const prisma = new PrismaService();
+import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 
 export const EmployeeResource = async () => {
   const { getModelByName } = await import('@adminjs/prisma');
 
   return {
-    resource: { model: getModelByName('Employee'), client: prisma },
+    resource: {
+      model: getModelByName('Employee'),
+      client: prismaAdminJSClient,
+    },
     options: {
       properties: {
         role: {

@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
 import { EmployeeResource } from '../resources/employee.resource';
+import { PrismaService } from '../prisma/prisma.service';
 
 type AdminModuleType = {
   createAdminAsync: (options: any) => any;
 };
+
+export const prismaAdminJSClient = new PrismaService();
 
 @Module({
   imports: [
