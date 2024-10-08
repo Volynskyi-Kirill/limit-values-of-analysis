@@ -3,7 +3,6 @@ import { availableRolesForOwner } from '../ui/constants';
 
 export const EmployeeResource = async () => {
   const { getModelByName } = await import('@adminjs/prisma');
-  // const { actions } = await import('adminjs');
 
   return {
     resource: {
@@ -23,7 +22,10 @@ export const EmployeeResource = async () => {
       properties: {
         createdBy: {
           isVisible: {
+            list: true,
             new: false,
+            show: true,
+            filter: true,
           },
         },
         role: {

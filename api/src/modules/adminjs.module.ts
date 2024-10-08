@@ -3,6 +3,8 @@ import { EmployeeResource } from '../adminjs/resources/employee.resource';
 import { PrismaService } from '../prisma/prisma.service';
 import { EmployeeModule } from 'src/employee/employee.module';
 import { EmployeeService } from 'src/employee/employee.service';
+import { createClient } from 'redis';
+import RedisStore from 'connect-redis';
 
 type AdminModuleType = {
   createAdminAsync: (options: any) => any;
@@ -23,6 +25,14 @@ export const prismaAdminJSClient = new PrismaService();
 
       const employeeResource = await EmployeeResource();
 
+      const redisClient = createClient({
+        url: 'redis://localhost:6379',
+      });
+      redisClient.on('error', (err) => console.log('Redis Client Error', err));
+
+      await redisClient.connect();
+      const redisStore = new RedisStore({ client: redisClient });
+
       return AdminModule.createAdminAsync({
         imports: [EmployeeModule],
         useFactory: async (employeeService: EmployeeService) => ({
@@ -37,6 +47,7 @@ export const prismaAdminJSClient = new PrismaService();
             cookiePassword: 'secret',
           },
           sessionOptions: {
+            store: redisStore,
             resave: true,
             saveUninitialized: true,
             secret: 'secret',
