@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { EmployeeResource } from '../adminjs/resources/employee.resource';
 import { PrismaService } from '../prisma/prisma.service';
+import { EmployeeModule } from 'src/employee/employee.module';
+import { EmployeeService } from 'src/employee/employee.service';
 
 type AdminModuleType = {
   createAdminAsync: (options: any) => any;
@@ -22,12 +24,25 @@ export const prismaAdminJSClient = new PrismaService();
       const employeeResource = await EmployeeResource();
 
       return AdminModule.createAdminAsync({
-        useFactory: () => ({
+        imports: [EmployeeModule],
+        useFactory: async (employeeService: EmployeeService) => ({
           adminJsOptions: {
             rootPath: '/admin',
             resources: [employeeResource],
           },
+          auth: {
+            authenticate: (email: string, password: string) =>
+              employeeService.authenticate(email, password),
+            cookieName: 'adminjs',
+            cookiePassword: 'secret',
+          },
+          sessionOptions: {
+            resave: true,
+            saveUninitialized: true,
+            secret: 'secret',
+          },
         }),
+        inject: [EmployeeService],
       });
     })(),
   ],

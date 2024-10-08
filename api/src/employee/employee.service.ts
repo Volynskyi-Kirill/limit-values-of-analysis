@@ -1,13 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEmployeeDto } from './dto/create-employee.dto';
-import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-
 @Injectable()
 export class EmployeeService {
   constructor(private prismaService: PrismaService) {}
 
-  async findByEmail(email: string) {
+  findByEmail(email: string) {
     return this.prismaService.employee.findUnique({
       where: {
         email,
@@ -15,23 +12,14 @@ export class EmployeeService {
     });
   }
 
-  create(createEmployeeDto: CreateEmployeeDto) {
-    return 'This action adds a new employee';
-  }
+  async authenticate(email: string, password: string) {
+    const user = await this.findByEmail(email);
 
-  findAll() {
-    return `This action returns all employee`;
-  }
+    if (!user) {
+      return null; 
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} employee`;
-  }
-
-  update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
-    return `This action updates a #${id} employee`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} employee`;
+    const isAuthSuccess = user.password === password;
+    return isAuthSuccess ? user : null; 
   }
 }
