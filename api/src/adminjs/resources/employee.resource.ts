@@ -3,6 +3,7 @@ import { availableRolesForOwner } from '../ui/constants';
 
 export const EmployeeResource = async () => {
   const { getModelByName } = await import('@adminjs/prisma');
+  // const { actions } = await import('adminjs');
 
   return {
     resource: {
@@ -10,7 +11,21 @@ export const EmployeeResource = async () => {
       client: prismaAdminJSClient,
     },
     options: {
+      actions: {
+        new: {
+          before: async (request: any) => {
+            const currentUser = request.session.adminUser;
+            request.payload.createdBy = currentUser.id;
+            return request;
+          },
+        },
+      },
       properties: {
+        createdBy: {
+          isVisible: {
+            new: false,
+          },
+        },
         role: {
           type: 'string',
           availableValues: availableRolesForOwner,

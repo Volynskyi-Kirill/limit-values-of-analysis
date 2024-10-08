@@ -40,6 +40,9 @@ export const prismaAdminJSClient = new PrismaService();
             resave: true,
             saveUninitialized: true,
             secret: 'secret',
+            cookie: {
+              maxAge: 24 * 60 * 60 * 1000, // 24 часа
+            },
           },
         }),
         inject: [EmployeeService],
