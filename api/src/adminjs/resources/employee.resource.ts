@@ -1,5 +1,10 @@
 import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 import { availableRolesForOwner } from '../ui/constants';
+import { Role } from '@prisma/client';
+import {
+  handleAfterListEmployees,
+  handleBeforeNewEmployee,
+} from '../handlers/employee.handler';
 
 export const EmployeeResource = async () => {
   const { getModelByName } = await import('@adminjs/prisma');
@@ -12,11 +17,10 @@ export const EmployeeResource = async () => {
     options: {
       actions: {
         new: {
-          before: async (request: any) => {
-            const currentUser = request.session.adminUser;
-            request.payload.createdBy = currentUser.id;
-            return request;
-          },
+          before: handleBeforeNewEmployee,
+        },
+        list: {
+          after: handleAfterListEmployees,
         },
       },
       properties: {
@@ -29,7 +33,8 @@ export const EmployeeResource = async () => {
           },
         },
         role: {
-          type: 'string',
+          type: 'enum',
+          enumValues: Role,
           availableValues: availableRolesForOwner,
         },
       },
