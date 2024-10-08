@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { EmployeeResource } from '../resources/employee.resource';
+import { EmployeeResource } from '../adminjs/resources/employee.resource';
 import { PrismaService } from '../prisma/prisma.service';
 
 type AdminModuleType = {

@@ -1,4 +1,5 @@
 import { prismaAdminJSClient } from 'src/modules/adminjs.module';
+import { availableRolesForOwner } from '../ui/constants';
 
 export const EmployeeResource = async () => {
   const { getModelByName } = await import('@adminjs/prisma');
@@ -12,11 +13,7 @@ export const EmployeeResource = async () => {
       properties: {
         role: {
           type: 'string',
-          availableValues: [
-            { value: 'SUPER_ADMIN', label: 'супер адмін' },
-            { value: 'ADMIN', label: 'адмін' },
-            { value: 'MED_WORKER', label: 'мед працівник' },
-          ],
+          availableValues: availableRolesForOwner,
         },
       },
     },
