@@ -5,6 +5,7 @@ import { EmployeeModule } from 'src/employee/employee.module';
 import { EmployeeService } from 'src/employee/employee.service';
 import { createClient } from 'redis';
 import RedisStore from 'connect-redis';
+import { loadComponents } from 'src/adminjs/components/components';
 
 type AdminModuleType = {
   createAdminAsync: (options: any) => any;
@@ -20,7 +21,7 @@ export const prismaAdminJSClient = new PrismaService();
       const { AdminModule }: { AdminModule: AdminModuleType } = await import(
         '@adminjs/nestjs'
       );
-
+      // const { componentLoader } = await loadComponents();
       AdminJS.registerAdapter({ Database, Resource });
 
       const employeeResource = await EmployeeResource();
@@ -33,12 +34,21 @@ export const prismaAdminJSClient = new PrismaService();
       await redisClient.connect();
       const redisStore = new RedisStore({ client: redisClient });
 
+      // const adminJSInstance = new AdminJS({
+      //   rootPath: '/admin',
+      //   resources: [employeeResource],
+      //   componentLoader,
+      // });
+
+      // adminJSInstance.watch();
+
       return AdminModule.createAdminAsync({
         imports: [EmployeeModule],
         useFactory: async (employeeService: EmployeeService) => ({
           adminJsOptions: {
             rootPath: '/admin',
             resources: [employeeResource],
+            // componentLoader,
           },
           auth: {
             authenticate: (email: string, password: string) =>
