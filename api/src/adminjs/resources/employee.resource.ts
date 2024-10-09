@@ -2,9 +2,10 @@ import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 import {
   handleAfterListEmployees,
   handleBeforeNewEmployee,
+  handleDeleteAccessEmployee,
+  handleEditAccessEmployee,
 } from '../handlers/employee.handler';
 import { loadComponents } from '../components/components';
-import { canDeleteEmployee, canEditEmployee } from '../lib/helpers';
 
 export const EmployeeResource = async () => {
   const { getModelByName } = await import('@adminjs/prisma');
@@ -21,32 +22,10 @@ export const EmployeeResource = async () => {
           before: handleBeforeNewEmployee,
         },
         edit: {
-          isAccessible: ({
-            currentAdmin,
-            record,
-          }: {
-            currentAdmin: any;
-            record: any;
-          }) => {
-            const currentAdminRole = currentAdmin.role;
-            const employeeRole = record.params.role;
-
-            return canEditEmployee(currentAdminRole, employeeRole);
-          },
+          isAccessible: handleEditAccessEmployee,
         },
         delete: {
-          isAccessible: ({
-            currentAdmin,
-            record,
-          }: {
-            currentAdmin: any;
-            record: any;
-          }) => {
-            const currentAdminRole = currentAdmin.role;
-            const employeeRole = record.params.role;
-
-            return canDeleteEmployee(currentAdminRole, employeeRole);
-          },
+          isAccessible: handleDeleteAccessEmployee,
         },
         list: {
           after: handleAfterListEmployees,

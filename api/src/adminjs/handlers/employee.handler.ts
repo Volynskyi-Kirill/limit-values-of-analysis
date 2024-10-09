@@ -1,9 +1,12 @@
-import { canEditEmployee, filterRecordsByRole } from '../lib/helpers';
+import {
+  canDeleteEmployee,
+  canEditEmployee,
+  filterRecordsByRole,
+} from '../lib/helpers';
 
 export const handleBeforeNewEmployee = async (request: any) => {
   const currentUser = request.session.adminUser;
   request.payload.createdBy = currentUser.id;
-  console.log('request.payload: ', request.payload);
   return request;
 };
 
@@ -25,17 +28,28 @@ export const handleAfterListEmployees = async (
   };
 };
 
-// export const handleEditAccessEmployee = async ({
-//   currentAdmin,
-//   record,
-// }: {
-//   currentAdmin: any;
-//   record: any;
-// }) => {
-//   const currentAdminRole = currentAdmin.role;
-//   console.log('currentAdminRole: ', currentAdminRole);
-//   const employeeRole = record.params.role;
-//   console.log('employeeRole: ', employeeRole);
+export const handleEditAccessEmployee = ({
+  currentAdmin,
+  record,
+}: {
+  currentAdmin: any;
+  record: any;
+}) => {
+  const currentAdminRole = currentAdmin.role;
+  const employeeRole = record.params.role;
 
-//   return canEditEmployee(currentAdminRole, employeeRole);
-// };
+  return canEditEmployee(currentAdminRole, employeeRole);
+};
+
+export const handleDeleteAccessEmployee = ({
+  currentAdmin,
+  record,
+}: {
+  currentAdmin: any;
+  record: any;
+}) => {
+  const currentAdminRole = currentAdmin.role;
+  const employeeRole = record.params.role;
+
+  return canDeleteEmployee(currentAdminRole, employeeRole);
+};
