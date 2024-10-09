@@ -3,7 +3,7 @@ export const loadComponents = async () => {
   const componentLoader = new ComponentLoader();
 
   const Components = {
-    RoleSelect: componentLoader.add('RoleSelect', './RoleSelect'),
+    RoleSelect: componentLoader.add('RoleSelect', './role-select'),
   };
 
   return { componentLoader, Components };
