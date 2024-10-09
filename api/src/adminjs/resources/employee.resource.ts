@@ -19,6 +19,13 @@ export const EmployeeResource = async () => {
         new: {
           before: handleBeforeNewEmployee,
         },
+        edit: {
+          before: async (request: any) => {
+            const currentUser = request.session.adminUser;
+            console.log('request.payload: ', request.payload);
+            return request;
+          },
+        },
         list: {
           after: handleAfterListEmployees,
         },

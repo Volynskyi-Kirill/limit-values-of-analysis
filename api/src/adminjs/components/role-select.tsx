@@ -6,36 +6,41 @@ import { useCurrentAdmin } from 'adminjs';
 import { Select } from '@adminjs/design-system';
 import { getAvailableRoles } from '../lib/helpers';
 
-const RoleSelect: React.FC = () => {
+const RoleSelect: React.FC = (props: any) => {
+  console.log('props: ', props);
+  const { record, onChange } = props;
+  console.log('onChange: ', onChange);
+  console.log('record: ', record);
   const [selectedRole, setSelectedRole] = useState<string | undefined>(
     undefined,
   );
+  console.log('selectedRole: ', selectedRole);
+
   const [currentAdmin, setCurrentAdmin] = useCurrentAdmin();
 
   const currentRole = currentAdmin?.role;
 
   const options = getAvailableRoles(currentRole);
+  console.log('options: ', options);
 
-  const handleChange = (selected: { value: string } | null) => {
-    setSelectedRole(selected ? selected.value : undefined);
+  const handleRoleChange = (selected: any) => {
+    setSelectedRole(selected);
+    onChange('role', selected.value);
   };
 
   return (
-    <Select
-      id="roleSelect"
-      value={
-        selectedRole
-          ? {
-              value: selectedRole,
-              label: options.find((option) => option.value === selectedRole)
-                ?.label,
-            }
-          : null
-      }
-      options={options}
-      onChange={handleChange}
-      placeholder="Select the role"
-    />
+    <>
+      <label htmlFor="roleSelect">Role</label>
+      <Select
+        id="roleSelect"
+        name="role"
+        value={selectedRole}
+        options={options}
+        onChange={handleRoleChange}
+        placeholder="Select the role"
+        required
+      />
+    </>
   );
 };
 

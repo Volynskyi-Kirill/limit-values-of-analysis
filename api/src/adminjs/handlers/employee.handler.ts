@@ -2,12 +2,8 @@ import { filterRecordsByRole } from '../lib/helpers';
 
 export const handleBeforeNewEmployee = async (request: any) => {
   const currentUser = request.session.adminUser;
-  console.log('currentUser: ', currentUser);
-  console.log('request.payload до изменения: ', request.payload);
-
-  request.payload.createdById = currentUser.id;
-
-  console.log('request.payload после изменения: ', request.payload);
+  request.payload.createdBy = currentUser.id;
+  console.log('request.payload: ', request.payload);
   return request;
 };
 
