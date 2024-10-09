@@ -1,4 +1,4 @@
-import { filterRecordsByRole } from '../lib/helpers';
+import { canEditEmployee, filterRecordsByRole } from '../lib/helpers';
 
 export const handleBeforeNewEmployee = async (request: any) => {
   const currentUser = request.session.adminUser;
@@ -24,3 +24,18 @@ export const handleAfterListEmployees = async (
     records: filteredRecords,
   };
 };
+
+// export const handleEditAccessEmployee = async ({
+//   currentAdmin,
+//   record,
+// }: {
+//   currentAdmin: any;
+//   record: any;
+// }) => {
+//   const currentAdminRole = currentAdmin.role;
+//   console.log('currentAdminRole: ', currentAdminRole);
+//   const employeeRole = record.params.role;
+//   console.log('employeeRole: ', employeeRole);
+
+//   return canEditEmployee(currentAdminRole, employeeRole);
+// };

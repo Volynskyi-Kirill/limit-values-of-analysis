@@ -4,6 +4,7 @@ import {
   handleBeforeNewEmployee,
 } from '../handlers/employee.handler';
 import { loadComponents } from '../components/components';
+import { canDeleteEmployee, canEditEmployee } from '../lib/helpers';
 
 export const EmployeeResource = async () => {
   const { getModelByName } = await import('@adminjs/prisma');
@@ -20,10 +21,31 @@ export const EmployeeResource = async () => {
           before: handleBeforeNewEmployee,
         },
         edit: {
-          before: async (request: any) => {
-            const currentUser = request.session.adminUser;
-            console.log('request.payload: ', request.payload);
-            return request;
+          isAccessible: ({
+            currentAdmin,
+            record,
+          }: {
+            currentAdmin: any;
+            record: any;
+          }) => {
+            const currentAdminRole = currentAdmin.role;
+            const employeeRole = record.params.role;
+
+            return canEditEmployee(currentAdminRole, employeeRole);
+          },
+        },
+        delete: {
+          isAccessible: ({
+            currentAdmin,
+            record,
+          }: {
+            currentAdmin: any;
+            record: any;
+          }) => {
+            const currentAdminRole = currentAdmin.role;
+            const employeeRole = record.params.role;
+
+            return canDeleteEmployee(currentAdminRole, employeeRole);
           },
         },
         list: {

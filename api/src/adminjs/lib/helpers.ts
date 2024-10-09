@@ -32,3 +32,49 @@ export const getAvailableRoles = (currentUserRole: Role) => {
       return [];
   }
 };
+
+export function canEditEmployee(
+  currentAdminRole: Role,
+  userRole: Role,
+): boolean {
+  switch (currentAdminRole) {
+    case Role.ADMIN:
+      switch (userRole) {
+        case Role.ADMIN:
+          return false;
+        case Role.MED_WORKER:
+          return true;
+        default:
+          return false;
+      }
+
+    case Role.SUPER_ADMIN:
+      return true;
+
+    default:
+      return false;
+  }
+}
+
+export function canDeleteEmployee(
+  currentAdminRole: Role,
+  userRole: Role,
+): boolean {
+  switch (currentAdminRole) {
+    case Role.ADMIN:
+      switch (userRole) {
+        case Role.ADMIN:
+          return false;
+        case Role.MED_WORKER:
+          return true;
+        default:
+          return false;
+      }
+
+    case Role.SUPER_ADMIN:
+      return true;
+
+    default:
+      return false;
+  }
+}
