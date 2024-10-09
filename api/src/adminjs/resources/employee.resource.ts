@@ -1,15 +1,9 @@
 import { prismaAdminJSClient } from 'src/modules/adminjs.module';
-// import { availableRolesForOwner } from '../ui/constants';
-
 import {
   handleAfterListEmployees,
   handleBeforeNewEmployee,
 } from '../handlers/employee.handler';
 import { loadComponents } from '../components/components';
-import {
-  availableRolesForAdmin,
-  availableRolesForOwner,
-} from '../ui/constants';
 
 export const EmployeeResource = async () => {
   const { getModelByName } = await import('@adminjs/prisma');
@@ -43,8 +37,6 @@ export const EmployeeResource = async () => {
           components: {
             edit: Components.RoleSelect,
           },
-
-          // availableValues: availableRolesForOwner,
         },
       },
     },
