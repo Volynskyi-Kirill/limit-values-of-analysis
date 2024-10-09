@@ -11,6 +11,7 @@ const roleAccess = {
 
 export const getAvailableRolesForUser = (userType: any) => {
   return Object.entries(roleAccess)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .filter(([_, role]) => role.accessibleBy.includes(userType))
     .map(([value, role]) => ({ value, label: role.label }));
 };

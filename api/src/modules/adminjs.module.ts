@@ -5,7 +5,7 @@ import { EmployeeModule } from 'src/employee/employee.module';
 import { EmployeeService } from 'src/employee/employee.service';
 import { createClient } from 'redis';
 import RedisStore from 'connect-redis';
-import { loadComponents } from 'src/adminjs/components/components';
+// import { loadComponents } from 'src/adminjs/components/components';
 
 type AdminModuleType = {
   createAdminAsync: (options: any) => any;
