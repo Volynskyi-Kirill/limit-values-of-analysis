@@ -23,14 +23,14 @@ const RoleSelect: React.FC = (props: any) => {
 
   return (
     <>
-      <label htmlFor="roleSelect">Role</label>
+      <label htmlFor="roleSelect">Роль працівника</label>
       <Select
         id="roleSelect"
         name="role"
         value={selectedRole}
         options={options}
         onChange={handleRoleChange}
-        placeholder="Select the role"
+        placeholder="Оберіть роль"
         required
       />
     </>

@@ -13,6 +13,7 @@ export const TestResource = async () => {
       client: prismaAdminJSClient,
     },
     options: {
+      navigation: { icon: 'Clipboard' },
       actions: {
         new: {
           before: handleBeforeNewTest,

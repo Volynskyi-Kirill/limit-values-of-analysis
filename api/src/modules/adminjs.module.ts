@@ -22,6 +22,7 @@ export const prismaAdminJSClient = new PrismaService();
   imports: [
     (async () => {
       const AdminJS = (await import('adminjs')).default;
+      const { locales } = await import('adminjs');
       const { Database, Resource } = await import('@adminjs/prisma');
       const { AdminModule }: { AdminModule: AdminModuleType } = await import(
         '@adminjs/nestjs'
@@ -58,9 +59,22 @@ export const prismaAdminJSClient = new PrismaService();
               userResource,
             ],
             componentLoader,
-            // locale: {
-            //   language: 'ua',
-            // },
+            locale: {
+              language: 'ua',
+              availableLanguages: ['ua'],
+              translations: {
+                ua: {
+                  labels: {
+                    Employee: 'Працівники',
+                    TestType: 'Типи тестів',
+                    Indicator: 'Індикатори',
+                    IndicatorRange: 'Діапазон значень',
+                    Test: 'Тести',
+                    User: 'Користувачі',
+                  },
+                },
+              },
+            },
           },
           auth: {
             authenticate: (email: string, password: string) =>

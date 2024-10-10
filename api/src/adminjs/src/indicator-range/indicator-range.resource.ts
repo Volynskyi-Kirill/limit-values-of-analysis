@@ -13,6 +13,7 @@ export const IndicatorRangeResource = async () => {
       client: prismaAdminJSClient,
     },
     options: {
+      navigation: { icon: 'BarChart' },
       actions: {
         new: {
           before: handleBeforeNewIndicatorRange,

@@ -13,6 +13,9 @@ export const UserResource = async () => {
       client: prismaAdminJSClient,
     },
     options: {
+      navigation: {
+        icon: 'User',
+      },
       actions: {
         new: {
           before: handleBeforeNewUser,

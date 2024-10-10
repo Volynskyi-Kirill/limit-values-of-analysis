@@ -13,6 +13,7 @@ export const TestTypeResource = async () => {
       client: prismaAdminJSClient,
     },
     options: {
+      navigation: { icon: 'Layers' },
       actions: {
         new: {
           before: handleBeforeNewTestType,

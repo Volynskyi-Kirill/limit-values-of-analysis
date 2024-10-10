@@ -13,6 +13,7 @@ export const IndicatorResource = async () => {
       client: prismaAdminJSClient,
     },
     options: {
+      navigation: { icon: 'Activity' },
       actions: {
         new: {
           before: handleBeforeNewIndicator,
