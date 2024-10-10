@@ -3,9 +3,13 @@ import {
   canEditEmployee,
   filterRecordsByRole,
 } from '../lib/helpers';
+import { validateEmployeeDto } from './employee.validate';
 
 export const handleBeforeNewEmployee = async (request: any) => {
   const currentUser = request.session.adminUser;
+
+  await validateEmployeeDto(request.payload);
+
   request.payload.createdBy = currentUser.id;
   return request;
 };

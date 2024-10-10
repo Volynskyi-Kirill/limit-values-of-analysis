@@ -4,7 +4,7 @@ import {
   handleBeforeNewEmployee,
   handleDeleteAccessEmployee,
   handleEditAccessEmployee,
-} from '../handlers/employee.handler';
+} from './employee.handler';
 import { loadComponents } from '../components/components';
 
 export const EmployeeResource = async () => {
