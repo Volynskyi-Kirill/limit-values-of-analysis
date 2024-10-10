@@ -19,7 +19,7 @@ export const UserResource = async () => {
         },
       },
       properties: {
-        // createdBy: DEFAULT_CREATED_BY_OPTION,
+        createdBy: DEFAULT_CREATED_BY_OPTION,
       },
     },
   };
