@@ -2,7 +2,7 @@ import {
   canDeleteEmployee,
   canEditEmployee,
   filterRecordsByRole,
-} from '../lib/helpers';
+} from '../../lib/helpers';
 import { validateEmployeeDto } from './employee.validate';
 
 export const handleBeforeNewEmployee = async (request: any) => {

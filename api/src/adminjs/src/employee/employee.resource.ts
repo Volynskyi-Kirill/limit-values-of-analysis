@@ -5,7 +5,8 @@ import {
   handleDeleteAccessEmployee,
   handleEditAccessEmployee,
 } from './employee.handler';
-import { loadComponents } from '../components/components';
+import { loadComponents } from '../../components/components';
+import { DEFAULT_CREATED_BY_OPTION } from 'src/adminjs/shared/options';
 
 export const EmployeeResource = async () => {
   const { getModelByName } = await import('@adminjs/prisma');
@@ -32,14 +33,7 @@ export const EmployeeResource = async () => {
         },
       },
       properties: {
-        createdBy: {
-          isVisible: {
-            list: true,
-            new: false,
-            show: true,
-            filter: true,
-          },
-        },
+        createdBy: DEFAULT_CREATED_BY_OPTION,
         role: {
           type: 'enum',
           components: {
