@@ -37,6 +37,9 @@ export const EmployeeResource = async () => {
       },
       properties: {
         createdBy: DEFAULT_CREATED_BY_OPTION,
+        lastName: {
+          isTitle: true,
+        },
         role: {
           type: 'enum',
           components: {
