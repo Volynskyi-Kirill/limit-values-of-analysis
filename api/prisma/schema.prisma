@@ -18,10 +18,10 @@ enum Role {
   MED_WORKER  @map("med_worker")
 }
 
-//TODO name 
-
 model Employee {
   id              Int              @id @default(autoincrement()) @map("id")
+  firstName       String           @default("Невідомо") @map("first_name")
+  lastName        String           @default("Невідомо") @map("last_name")
   email           String           @unique @map("email")
   password        String           @map("password")
   role            Role             @default(MED_WORKER) @map("role")
@@ -87,8 +87,8 @@ model IndicatorRange {
   indicatorId Int       @map("indicator_id")
   indicator   Indicator @relation(fields: [indicatorId], references: [id])
   gender      Gender    @map("gender")
-  minAge      Int       @map("min_age")
-  maxAge      Int       @map("max_age")
+  // minAge      Int       @map("min_age")
+  // maxAge      Int       @map("max_age")
   minValue    Float     @map("min_value")
   maxValue    Float     @map("max_value")
   createdBy   Employee? @relation(fields: [createdById], references: [id])
