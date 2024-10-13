@@ -64,6 +64,8 @@ model TestType {
   createdBy   Employee?   @relation(fields: [createdById], references: [id])
   createdById Int?        @map("created_by_id")
   indicators  Indicator[]
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @default(now()) @updatedAt @map("updated_at")
 
   @@map("test_type")
 }
@@ -78,6 +80,8 @@ model Indicator {
   createdBy   Employee?        @relation(fields: [createdById], references: [id])
   createdById Int?             @map("created_by_id")
   ranges      IndicatorRange[]
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @default(now()) @updatedAt @map("updated_at")
 
   @@map("indicator")
 }
@@ -94,6 +98,8 @@ model IndicatorRange {
   createdBy   Employee? @relation(fields: [createdById], references: [id])
   createdById Int?      @map("created_by_id")
   tests       Test[]
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
 
   @@map("indicator_range")
 }

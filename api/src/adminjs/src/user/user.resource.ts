@@ -2,6 +2,7 @@ import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 import { loadComponents } from '../../components/components';
 import { handleBeforeNewUser } from './user.handler';
 import { DEFAULT_CREATED_BY_OPTION } from 'src/adminjs/shared/options';
+import { handleUpdatedAt } from 'src/adminjs/shared/handler.updatead-at';
 
 export const UserResource = async () => {
   const { getModelByName } = await import('@adminjs/prisma');
@@ -19,6 +20,9 @@ export const UserResource = async () => {
       actions: {
         new: {
           before: handleBeforeNewUser,
+        },
+        edit: {
+          before: handleUpdatedAt,
         },
       },
       properties: {

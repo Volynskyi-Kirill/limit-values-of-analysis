@@ -1,3 +1,4 @@
+import { handleUpdatedAt } from 'src/adminjs/shared/handler.updatead-at';
 import {
   canDeleteEmployee,
   canEditEmployee,
@@ -15,8 +16,7 @@ export const handleBeforeNewEmployee = async (request: any) => {
 };
 
 export const handleBeforeEditEmployee = async (request: any) => {
-  request.payload.updatedAt = new Date();
-  return request;
+  return handleUpdatedAt(request);
 };
 
 export const handleAfterListEmployees = async (
