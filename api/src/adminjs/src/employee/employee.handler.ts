@@ -1,8 +1,9 @@
+import { handleUpdatedAt } from 'src/adminjs/shared/handlers';
 import {
   canDeleteEmployee,
   canEditEmployee,
   filterRecordsByRole,
-} from '../lib/helpers';
+} from '../../lib/helpers';
 import { validateEmployeeDto } from './employee.validate';
 
 export const handleBeforeNewEmployee = async (request: any) => {
@@ -12,6 +13,10 @@ export const handleBeforeNewEmployee = async (request: any) => {
 
   request.payload.createdBy = currentUser.id;
   return request;
+};
+
+export const handleBeforeEditEmployee = async (request: any) => {
+  return handleUpdatedAt(request);
 };
 
 export const handleAfterListEmployees = async (

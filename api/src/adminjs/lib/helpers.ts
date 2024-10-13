@@ -2,7 +2,7 @@ import { Role } from '@prisma/client';
 import {
   availableRolesForAdmin,
   availableRolesForOwner,
-} from '../ui/constants';
+} from '../shared/constants';
 
 export const filterRecordsByRole = (records: any[], userRole: Role) => {
   switch (userRole) {

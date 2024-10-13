@@ -1,11 +1,17 @@
 import { Module } from '@nestjs/common';
-import { EmployeeResource } from '../adminjs/employee/employee.resource';
+import { EmployeeResource } from '../adminjs/src/employee/employee.resource';
 import { PrismaService } from '../prisma/prisma.service';
 import { EmployeeModule } from 'src/employee/employee.module';
 import { EmployeeService } from 'src/employee/employee.service';
 import { createClient } from 'redis';
 import RedisStore from 'connect-redis';
 import { loadComponents } from 'src/adminjs/components/components';
+import { TestTypeResource } from 'src/adminjs/src/test-type/test-type.resource';
+import { IndicatorResource } from 'src/adminjs/src/indicator/indicator.resource';
+import { IndicatorRangeResource } from 'src/adminjs/src/indicator-range/indicator-range.resource';
+import { TestResource } from 'src/adminjs/src/test/test.resource';
+import { UserResource } from 'src/adminjs/src/user/user.resource';
+import { TRANSLATION_UA } from 'src/adminjs/translations/translations.ua';
 
 type AdminModuleType = {
   createAdminAsync: (options: any) => any;
@@ -17,6 +23,7 @@ export const prismaAdminJSClient = new PrismaService();
   imports: [
     (async () => {
       const AdminJS = (await import('adminjs')).default;
+      const { locales } = await import('adminjs');
       const { Database, Resource } = await import('@adminjs/prisma');
       const { AdminModule }: { AdminModule: AdminModuleType } = await import(
         '@adminjs/nestjs'
@@ -25,6 +32,11 @@ export const prismaAdminJSClient = new PrismaService();
       AdminJS.registerAdapter({ Database, Resource });
 
       const employeeResource = await EmployeeResource();
+      const testTypeResource = await TestTypeResource();
+      const indicatorResource = await IndicatorResource();
+      const indicatorRangeResource = await IndicatorRangeResource();
+      const testResource = await TestResource();
+      const userResource = await UserResource();
 
       const redisClient = createClient({
         url: 'redis://localhost:6379',
@@ -39,11 +51,22 @@ export const prismaAdminJSClient = new PrismaService();
         useFactory: async (employeeService: EmployeeService) => ({
           adminJsOptions: {
             rootPath: '/admin',
-            resources: [employeeResource],
+            resources: [
+              employeeResource,
+              testTypeResource,
+              indicatorResource,
+              indicatorRangeResource,
+              testResource,
+              userResource,
+            ],
             componentLoader,
-            // locale: {
-            //   language: 'ua',
-            // },
+            locale: {
+              language: 'ua',
+              availableLanguages: ['ua'],
+              translations: {
+                ua: TRANSLATION_UA,
+              },
+            },
           },
           auth: {
             authenticate: (email: string, password: string) =>
