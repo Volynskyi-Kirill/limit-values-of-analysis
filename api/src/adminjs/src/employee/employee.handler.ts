@@ -1,4 +1,4 @@
-import { handleUpdatedAt } from 'src/adminjs/shared/handler.updatead-at';
+import { handleUpdatedAt } from 'src/adminjs/shared/handlers';
 import {
   canDeleteEmployee,
   canEditEmployee,

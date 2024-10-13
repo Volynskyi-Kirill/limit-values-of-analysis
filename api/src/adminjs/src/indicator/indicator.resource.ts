@@ -2,7 +2,11 @@ import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 import { loadComponents } from '../../components/components';
 import { handleBeforeNewIndicator } from './indicator.handler';
 import { DEFAULT_CREATED_BY_OPTION } from 'src/adminjs/shared/options';
-import { handleUpdatedAt } from 'src/adminjs/shared/handler.updatead-at';
+import {
+  exceptMedicalEmployee,
+  handleUpdatedAt,
+} from 'src/adminjs/shared/handlers';
+import { Role } from '@prisma/client';
 
 export const IndicatorResource = async () => {
   const { getModelByName } = await import('@adminjs/prisma');
@@ -18,9 +22,14 @@ export const IndicatorResource = async () => {
       actions: {
         new: {
           before: handleBeforeNewIndicator,
+          isAccessible: exceptMedicalEmployee,
         },
         edit: {
           before: handleUpdatedAt,
+          isAccessible: exceptMedicalEmployee,
+        },
+        delete: {
+          isAccessible: exceptMedicalEmployee,
         },
       },
       properties: {

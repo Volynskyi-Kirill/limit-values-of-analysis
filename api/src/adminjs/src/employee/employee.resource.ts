@@ -8,6 +8,7 @@ import {
 } from './employee.handler';
 import { loadComponents } from '../../components/components';
 import { DEFAULT_CREATED_BY_OPTION } from 'src/adminjs/shared/options';
+import { exceptMedicalEmployee } from 'src/adminjs/shared/handlers';
 
 export const EmployeeResource = async () => {
   const { getModelByName } = await import('@adminjs/prisma');
@@ -25,6 +26,7 @@ export const EmployeeResource = async () => {
       actions: {
         new: {
           before: handleBeforeNewEmployee,
+          isAccessible: exceptMedicalEmployee,
         },
         edit: {
           before: handleBeforeEditEmployee,

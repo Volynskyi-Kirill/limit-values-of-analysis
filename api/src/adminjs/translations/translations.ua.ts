@@ -17,7 +17,7 @@ export const TRANSLATION_UA = {
     },
     status: {
       AWAITING_SUBMISSION: 'Очікування здачі',
-      IN_PROGRESS: 'В процесі',
+      IN_PROGRESS: 'Очікування результатів',
       DONE: 'Завершено',
     },
   },

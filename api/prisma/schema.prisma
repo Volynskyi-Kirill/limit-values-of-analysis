@@ -116,7 +116,7 @@ model Test {
   user             User           @relation(fields: [userId], references: [id])
   indicatorRangeId Int            @map("indicator_range_id")
   indicatorRange   IndicatorRange @relation(fields: [indicatorRangeId], references: [id])
-  resultValue      Float          @map("result_value")
+  resultValue      Float?         @map("result_value")
   status           TestStatus     @default(AWAITING_SUBMISSION) @map("status")
   testDate         DateTime       @map("test_date")
   createdAt        DateTime       @default(now()) @map("created_at")

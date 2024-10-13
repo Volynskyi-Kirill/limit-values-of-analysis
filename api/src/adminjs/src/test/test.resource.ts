@@ -2,7 +2,7 @@ import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 import { loadComponents } from '../../components/components';
 import { handleBeforeNewTest } from './test.handler';
 import { DEFAULT_CREATED_BY_OPTION } from 'src/adminjs/shared/options';
-import { handleUpdatedAt } from 'src/adminjs/shared/handler.updatead-at';
+import { handleUpdatedAt } from 'src/adminjs/shared/handlers';
 
 export const TestResource = async () => {
   const { getModelByName } = await import('@adminjs/prisma');
