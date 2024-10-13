@@ -11,6 +11,7 @@ import { IndicatorResource } from 'src/adminjs/src/indicator/indicator.resource'
 import { IndicatorRangeResource } from 'src/adminjs/src/indicator-range/indicator-range.resource';
 import { TestResource } from 'src/adminjs/src/test/test.resource';
 import { UserResource } from 'src/adminjs/src/user/user.resource';
+import { TRANSLATION_UA } from 'src/adminjs/translations/translations.ua';
 
 type AdminModuleType = {
   createAdminAsync: (options: any) => any;
@@ -63,16 +64,7 @@ export const prismaAdminJSClient = new PrismaService();
               language: 'ua',
               availableLanguages: ['ua'],
               translations: {
-                ua: {
-                  labels: {
-                    Employee: 'Працівники',
-                    TestType: 'Типи тестів',
-                    Indicator: 'Індикатори',
-                    IndicatorRange: 'Діапазон значень',
-                    Test: 'Тести',
-                    User: 'Користувачі',
-                  },
-                },
+                ua: TRANSLATION_UA,
               },
             },
           },
