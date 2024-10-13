@@ -18,6 +18,13 @@ const roleAccess = {
   },
 };
 
+export const generateRoleOptions = (role: Role) => {
+  return {
+    valuer: role,
+    label: roleLabels[role],
+  };
+};
+
 export const getAvailableRolesForUser = (userType: any) => {
   return (
     Object.entries(roleAccess)

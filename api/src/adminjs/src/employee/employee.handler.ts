@@ -14,6 +14,11 @@ export const handleBeforeNewEmployee = async (request: any) => {
   return request;
 };
 
+export const handleBeforeEditEmployee = async (request: any) => {
+  request.payload.updatedAt = new Date();
+  return request;
+};
+
 export const handleAfterListEmployees = async (
   originalResponse: any,
   request: any,

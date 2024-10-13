@@ -1,6 +1,7 @@
 import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 import {
   handleAfterListEmployees,
+  handleBeforeEditEmployee,
   handleBeforeNewEmployee,
   handleDeleteAccessEmployee,
   handleEditAccessEmployee,
@@ -26,6 +27,7 @@ export const EmployeeResource = async () => {
           before: handleBeforeNewEmployee,
         },
         edit: {
+          before: handleBeforeEditEmployee,
           isAccessible: handleEditAccessEmployee,
         },
         delete: {
