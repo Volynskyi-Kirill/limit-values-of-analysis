@@ -15,12 +15,17 @@ export const TRANSLATION_UA = {
       male: 'Чоловік',
       female: 'Жінка',
     },
+    status: {
+      AWAITING_SUBMISSION: 'Очікування здачі',
+      IN_PROGRESS: 'В процесі',
+      DONE: 'Завершено',
+    },
   },
   properties: {
     // Общие поля
     createdBy: 'Створено користувачем',
-    createdAt: 'Створено в',
-    updatedAt: 'Оновлено в',
+    createdAt: 'Створено',
+    updatedAt: 'Оновлено',
     role: 'Роль',
 
     // Поля Employee
@@ -58,5 +63,24 @@ export const TRANSLATION_UA = {
     resultValue: 'Результат',
     status: 'Статус',
     testDate: 'Дата тесту',
+  },
+};
+
+export const UA_VALIDATION_MESSAGES = {
+  email: {
+    isEmail: 'Поле електронної пошти має бути валідним',
+    isNotEmpty: 'Поле електронної пошти є обов’язковим',
+  },
+  password: {
+    isNotEmpty: 'Поле паролю є обов’язковим',
+  },
+  role: {
+    isEnum: 'Роль повинна бути однією з допустимих значень',
+  },
+  firstName: {
+    isNotEmpty: "Поле ім'я є обов’язковим",
+  },
+  lastName: {
+    isNotEmpty: 'Поле прізвище є обов’язковим',
   },
 };

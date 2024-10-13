@@ -18,6 +18,12 @@ enum Role {
   MED_WORKER  @map("med_worker")
 }
 
+enum TestStatus {
+  AWAITING_SUBMISSION @map("awaiting_submission")
+  IN_PROGRESS         @map("in_progress")
+  DONE                @map("done")
+}
+
 model Employee {
   id              Int              @id @default(autoincrement()) @map("id")
   firstName       String           @default("Невідомо") @map("first_name")
@@ -111,7 +117,7 @@ model Test {
   indicatorRangeId Int            @map("indicator_range_id")
   indicatorRange   IndicatorRange @relation(fields: [indicatorRangeId], references: [id])
   resultValue      Float          @map("result_value")
-  status           String         @map("status") // статус: ожидание, анализ, результаты получены
+  status           TestStatus     @default(AWAITING_SUBMISSION) @map("status")
   testDate         DateTime       @map("test_date")
   createdAt        DateTime       @default(now()) @map("created_at")
   updatedAt        DateTime       @updatedAt @map("updated_at")
