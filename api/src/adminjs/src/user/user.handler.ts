@@ -26,7 +26,7 @@ export const handleAfterNewUser = async (
   const createdUser = originalResponse.record.params;
   const { id, email } = createdUser;
 
-  const token = authService.generateToken(id, email);
+  const token = authService.generateToken(email);
   const linkHtml = await authService.createLink(token);
 
   await mailService.sendMessage({

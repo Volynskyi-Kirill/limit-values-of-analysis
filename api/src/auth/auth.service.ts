@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
@@ -14,12 +14,23 @@ export class AuthService {
     this.clientUrl = this.configService.get('CLIENT_URL')!;
   }
 
-  generateToken(id: string, email: string) {
-    return this.jwtService.sign({ id, email }, { secret: this.secret });
+  generateToken(email: string) {
+    return this.jwtService.sign({ email }, { secret: this.secret });
   }
 
   async createLink(token: string) {
-    const link = `${this.clientUrl}/auth/${token}`;
+    const link = `${this.clientUrl}/auth/confirm?token=${token}`;
     return `<p><a href="${link}">Увійти до облікового запису</a></p>`;
+  }
+
+  async verifyToken(token: string) {
+    try {
+      const payload = await this.jwtService.verifyAsync(token, {
+        secret: this.secret,
+      });
+      return payload;
+    } catch (err) {
+      throw new UnauthorizedException('Невалидный токен');
+    }
   }
 }
