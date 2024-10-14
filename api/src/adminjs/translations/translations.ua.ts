@@ -70,6 +70,7 @@ export const UA_VALIDATION_MESSAGES = {
   email: {
     isEmail: 'Поле електронної пошти має бути валідним',
     isNotEmpty: 'Поле електронної пошти є обов’язковим',
+    isUnique: 'Користувач з такою поштою вже існує!',
   },
   password: {
     isNotEmpty: 'Поле паролю є обов’язковим',

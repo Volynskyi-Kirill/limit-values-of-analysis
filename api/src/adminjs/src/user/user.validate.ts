@@ -1,3 +1,4 @@
+import { UA_VALIDATION_MESSAGES } from 'src/adminjs/translations/translations.ua';
 import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 
 export const validateUniqueEmail = async (email: string) => {
@@ -9,7 +10,7 @@ export const validateUniqueEmail = async (email: string) => {
     const { ValidationError } = await import('adminjs');
     throw new ValidationError({
       email: {
-        message: 'Користувач з такою поштою вже існує!',
+        message: UA_VALIDATION_MESSAGES.email.isUnique,
       },
     });
   }
