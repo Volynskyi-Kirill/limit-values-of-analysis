@@ -1,20 +1,26 @@
+'use client';
+
 import { useAuth } from '@/components/auth/AuthProvider';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export function withAuth(Component: React.ComponentType) {
   return function ProtectedRoute(props: any) {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, isLoading } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
-      if (!isAuthenticated) {
+      if (!isLoading && !isAuthenticated) {
         router.push('/login');
       }
-    }, [isAuthenticated, router]);
+    }, [isAuthenticated, isLoading, router]);
+
+    if (isLoading) {
+      return <div>Загрузка...</div>; // или любой другой компонент загрузки
+    }
 
     if (!isAuthenticated) {
-      return null; // или компонент загрузки
+      return null;
     }
 
     return <Component {...props} />;
