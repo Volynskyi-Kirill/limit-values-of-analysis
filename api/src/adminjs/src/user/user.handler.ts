@@ -1,11 +1,13 @@
 import { AuthService } from 'src/auth/auth.service';
 import { MailService } from 'src/mail/mail.service';
 
+import { validateUniqueEmail } from './user.validate';
+
 export const handleBeforeNewUser = async (request: any) => {
+  const email = request.payload.email;
+  await validateUniqueEmail(email);
+
   const currentUser = request.session.adminUser;
-
-  // await validateEmployeeDto(request.payload);
-
   request.payload.createdBy = currentUser.id;
   return request;
 };
@@ -21,7 +23,6 @@ export const handleAfterNewUser = async (
     mailService: MailService;
   },
 ) => {
-  const currentUser = request.session.adminUser;
   const createdUser = originalResponse.record.params;
   const { id, email } = createdUser;
 
