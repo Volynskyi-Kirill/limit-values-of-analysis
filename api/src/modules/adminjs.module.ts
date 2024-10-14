@@ -12,6 +12,10 @@ import { IndicatorRangeResource } from 'src/adminjs/src/indicator-range/indicato
 import { TestResource } from 'src/adminjs/src/test/test.resource';
 import { UserResource } from 'src/adminjs/src/user/user.resource';
 import { TRANSLATION_UA } from 'src/adminjs/translations/translations.ua';
+import { AuthService } from 'src/auth/auth.service';
+import { MailService } from 'src/mail/mail.service';
+import { AuthModule } from 'src/auth/auth.module';
+import { MailModule } from 'src/mail/mail.module';
 
 type AdminModuleType = {
   createAdminAsync: (options: any) => any;
@@ -36,7 +40,7 @@ export const prismaAdminJSClient = new PrismaService();
       const indicatorResource = await IndicatorResource();
       const indicatorRangeResource = await IndicatorRangeResource();
       const testResource = await TestResource();
-      const userResource = await UserResource();
+      // const userResource = await UserResource();
 
       const redisClient = createClient({
         url: 'redis://localhost:6379',
@@ -47,8 +51,12 @@ export const prismaAdminJSClient = new PrismaService();
       const redisStore = new RedisStore({ client: redisClient });
 
       return AdminModule.createAdminAsync({
-        imports: [EmployeeModule],
-        useFactory: async (employeeService: EmployeeService) => ({
+        imports: [EmployeeModule, AuthModule, MailModule],
+        useFactory: async (
+          employeeService: EmployeeService,
+          authService: AuthService,
+          mailService: MailService,
+        ) => ({
           adminJsOptions: {
             rootPath: '/admin',
             resources: [
@@ -57,7 +65,7 @@ export const prismaAdminJSClient = new PrismaService();
               indicatorResource,
               indicatorRangeResource,
               testResource,
-              userResource,
+              await UserResource(authService, mailService),
             ],
             componentLoader,
             locale: {
@@ -84,7 +92,7 @@ export const prismaAdminJSClient = new PrismaService();
             },
           },
         }),
-        inject: [EmployeeService],
+        inject: [EmployeeService, AuthService, MailService],
       });
     })(),
   ],
