@@ -6,7 +6,6 @@ import {
   exceptMedicalEmployee,
   handleUpdatedAt,
 } from 'src/adminjs/shared/handlers';
-import { Role } from '@prisma/client';
 
 export const IndicatorResource = async () => {
   const { getModelByName } = await import('@adminjs/prisma');
@@ -35,7 +34,7 @@ export const IndicatorResource = async () => {
       properties: {
         createdBy: DEFAULT_CREATED_BY_OPTION,
         id: {
-          isVisible: false, 
+          isVisible: false,
         },
       },
     },

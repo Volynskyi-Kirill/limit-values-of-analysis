@@ -1,6 +1,9 @@
 import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 import { loadComponents } from '../../components/components';
-import { handleBeforeNewIndicatorRange } from './indicator-range.handler';
+import {
+  handleBeforeNewIndicatorRange,
+  handleGetIndicatorsByTestId,
+} from './indicator-range.handler';
 import { DEFAULT_CREATED_BY_OPTION } from 'src/adminjs/shared/options';
 import {
   exceptMedicalEmployee,
@@ -30,11 +33,29 @@ export const IndicatorRangeResource = async () => {
         delete: {
           isAccessible: exceptMedicalEmployee,
         },
+        getIndicatorsByTestId: {
+          actionType: 'resource',
+          handler: handleGetIndicatorsByTestId,
+        },
       },
       properties: {
         createdBy: DEFAULT_CREATED_BY_OPTION,
         id: {
-          isVisible: false, 
+          isVisible: false,
+        },
+        indicator: {
+          reference: 'Indicator',
+          isRequired: true,
+          components: {
+            edit: Components.IndicatorSelect,
+          },
+        },
+        testId: {
+          reference: 'Test',
+          isRequired: true,
+          components: {
+            edit: Components.TestSelect,
+          },
         },
       },
     },
