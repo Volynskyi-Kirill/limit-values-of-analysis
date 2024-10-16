@@ -54,9 +54,15 @@ export const IndicatorRangeResource = async () => {
             edit: Components.IndicatorSelect,
           },
         },
+        // testType: {
+        //   isVisible: { list: true, show: true, edit: false },
+        //   isVirtual: true,
+
+        // },
         testId: {
-          reference: 'Test',
+          reference: 'TestType',
           isRequired: true,
+          isVisible: { list: false, show: false, edit: true },
           components: {
             edit: Components.TestSelect,
           },

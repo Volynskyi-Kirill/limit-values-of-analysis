@@ -12,7 +12,6 @@ const TestSelect: React.FC<any> = (props) => {
   const { record, onChange } = props;
   const [tests, setTests] = useState([]);
   const [selectedTest, setSelectedTest] = useState<any>(undefined);
-  console.log('record.params: ', record.params);
 
   useEffect(() => {
     const fetchTests = async () => {
