@@ -1,6 +1,7 @@
 // src/components/auth/AuthProvider.tsx
 'use client';
 
+import { Gender } from '@/lib/constants';
 import { createContext, useContext, useState, useEffect } from 'react';
 
 export type User = {
@@ -8,7 +9,7 @@ export type User = {
   lastName: string;
   patronymic: string;
   email: string;
-  gender: 'MALE' | 'FEMALE';
+  gender: Gender;
   birthDate: string;
   createdAt: string;
   updatedAt: string;

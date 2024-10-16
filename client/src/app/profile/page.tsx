@@ -1,4 +1,3 @@
-// src/app/profile/page.tsx
 'use client';
 
 import { useEffect } from 'react';
@@ -7,6 +6,7 @@ import { fetchUserProfile } from '@/lib/api';
 import { withAuth } from '@/lib/auth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CalendarIcon, MailIcon, UserIcon } from 'lucide-react';
+import { Gender } from '@/lib/constants';
 
 function ProfilePage() {
   const { user, setUser } = useAuth();
@@ -35,19 +35,9 @@ function ProfilePage() {
       <Card className='max-w-2xl mx-auto'>
         <CardHeader>
           <div className='flex items-center space-x-4'>
-            {/* <Avatar className='w-20 h-20'>
-              <AvatarImage
-                src='/placeholder.svg'
-                alt={`${user.firstName} ${user.lastName}`}
-              />
-              <AvatarFallback>
-                {user.firstName[0]}
-                {user.lastName[0]}
-              </AvatarFallback>
-            </Avatar> */}
             <div>
               <CardTitle className='text-2xl'>
-                {user.firstName} {user.lastName} {user.patronymic}
+                {user.lastName} {user.firstName} {user.patronymic}
               </CardTitle>
               <p className='text-sm text-muted-foreground'>{user.email}</p>
             </div>
@@ -58,12 +48,7 @@ function ProfilePage() {
             <div className='flex items-center space-x-2'>
               <UserIcon className='text-muted-foreground' />
               <span>
-                Пол:{' '}
-                {user.gender === 'MALE'
-                  ? 'Мужской'
-                  : user.gender === 'FEMALE'
-                  ? 'Женский'
-                  : 'Другой'}
+                Пол: {user.gender === Gender.male ? 'Мужской' : 'Женский'}
               </span>
             </div>
             <div className='flex items-center space-x-2'>
