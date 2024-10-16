@@ -36,7 +36,7 @@ export default function ConfirmAuthPage() {
         if (response.ok) {
           setMessage('Авторизация успешна');
           login(token);
-          setTimeout(() => router.push('/dashboard'), 2000);
+          setTimeout(() => router.push('/dashboard'), 500);
         } else {
           setMessage('Ошибка авторизации');
         }
