@@ -13,7 +13,7 @@ import { API_ROUTES } from '@/lib/config/apiRoutes';
 import { useAuth } from '@/components/auth/AuthProvider';
 
 export default function ConfirmAuthPage() {
-  const [message, setMessage] = useState('Подтверждение авторизации...');
+  const [message, setMessage] = useState('Підтвердження авторизації...');
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
@@ -22,7 +22,7 @@ export default function ConfirmAuthPage() {
   useEffect(() => {
     const confirmAuth = async () => {
       if (!token) {
-        setMessage('Отсутствует токен авторизации');
+        setMessage('Немає токен авторизації');
         return;
       }
 
@@ -34,15 +34,15 @@ export default function ConfirmAuthPage() {
         });
 
         if (response.ok) {
-          setMessage('Авторизация успешна');
+          setMessage('Авторизація успішна');
           login(token);
-          setTimeout(() => router.push('/dashboard'), 500);
+          setTimeout(() => router.push('/profile'), 500);
         } else {
-          setMessage('Ошибка авторизации');
+          setMessage('Помилка авторизації');
         }
       } catch (error) {
         console.error('error: ', error);
-        setMessage('Произошла ошибка. Попробуйте еще раз');
+        setMessage('Сталася помилка. Спробуйте ще раз');
       }
     };
 
@@ -53,7 +53,7 @@ export default function ConfirmAuthPage() {
     <div className='flex min-h-screen items-center justify-center'>
       <Card className='w-[350px]'>
         <CardHeader>
-          <CardTitle>Подтверждение входа</CardTitle>
+          <CardTitle>Підтвердження входу</CardTitle>
           <CardDescription>{message}</CardDescription>
         </CardHeader>
         <CardContent>

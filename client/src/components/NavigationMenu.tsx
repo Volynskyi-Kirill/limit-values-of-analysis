@@ -15,17 +15,17 @@ export function NavigationMenu() {
     <nav className='bg-primary text-primary-foreground p-4'>
       <div className='container mx-auto flex justify-between items-center'>
         <Link href='/dashboard' className='text-lg font-bold'>
-          Мое приложение
+          Мій додаток
         </Link>
         <div className='space-x-4'>
           <Link href='/profile' className='hover:underline'>
-            Профиль
+            Профіль
           </Link>
           <Link href='/tests' className='hover:underline'>
-            Анализы
+            Аналізи
           </Link>
           <Button variant='secondary' onClick={logout}>
-            Выйти
+            Вийти
           </Button>
         </div>
       </div>

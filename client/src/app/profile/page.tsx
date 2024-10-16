@@ -27,7 +27,7 @@ function ProfilePage() {
   }, [user, setUser]);
 
   if (!user) {
-    return <div>Загрузка профиля...</div>;
+    return <div>Завантаження профілю...</div>;
   }
 
   return (
@@ -48,13 +48,13 @@ function ProfilePage() {
             <div className='flex items-center space-x-2'>
               <UserIcon className='text-muted-foreground' />
               <span>
-                Пол: {user.gender === Gender.male ? 'Мужской' : 'Женский'}
+                Стать: {user.gender === Gender.male ? 'Мужской' : 'Женский'}
               </span>
             </div>
             <div className='flex items-center space-x-2'>
               <CalendarIcon className='text-muted-foreground' />
               <span>
-                Дата рождения: {new Date(user.birthDate).toLocaleDateString()}
+                Дата народження: {new Date(user.birthDate).toLocaleDateString()}
               </span>
             </div>
             <div className='flex items-center space-x-2'>
@@ -62,10 +62,12 @@ function ProfilePage() {
               <span>Email: {user.email}</span>
             </div>
             <div className='text-sm text-muted-foreground'>
-              <p>Аккаунт создан: {new Date(user.createdAt).toLocaleString()}</p>
               <p>
-                Последнее обновление:{' '}
-                {new Date(user.updatedAt).toLocaleString()}
+                Обліковий запис створено:{' '}
+                {new Date(user.createdAt).toLocaleString()}
+              </p>
+              <p>
+                Останнє оновлення: {new Date(user.updatedAt).toLocaleString()}
               </p>
             </div>
           </div>
