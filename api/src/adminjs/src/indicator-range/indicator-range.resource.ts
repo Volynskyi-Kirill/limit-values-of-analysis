@@ -33,6 +33,9 @@ export const IndicatorRangeResource = async () => {
       },
       properties: {
         createdBy: DEFAULT_CREATED_BY_OPTION,
+        id: {
+          isVisible: false, 
+        },
       },
     },
   };

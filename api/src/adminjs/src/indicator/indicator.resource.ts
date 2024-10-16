@@ -34,6 +34,9 @@ export const IndicatorResource = async () => {
       },
       properties: {
         createdBy: DEFAULT_CREATED_BY_OPTION,
+        id: {
+          isVisible: false, 
+        },
       },
     },
   };

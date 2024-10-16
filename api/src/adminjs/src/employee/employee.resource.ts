@@ -33,13 +33,16 @@ export const EmployeeResource = async () => {
           isAccessible: handleEditAccessEmployee,
         },
         delete: {
-          isAccessible: handleDeleteAccessEmployee,
+          isAccessible: false,
         },
         list: {
           after: handleAfterListEmployees,
         },
       },
       properties: {
+        id: {
+          isVisible: false,
+        },
         createdBy: DEFAULT_CREATED_BY_OPTION,
         lastName: {
           isTitle: true,
