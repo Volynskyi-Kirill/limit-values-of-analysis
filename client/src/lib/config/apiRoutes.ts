@@ -5,8 +5,7 @@ export const API_ROUTES = {
     LOGIN: `${BASE_URL}/auth/link`,
     CONFIRM: `${BASE_URL}/auth/confirm`,
   },
-  //   USER: {
-  //     PROFILE: `${BASE_URL}/user/profile`,
-  //     SETTINGS: `${BASE_URL}/user/settings`,
-  //   },
+  USER: {
+    ME: `${BASE_URL}/user/me`,
+  },
 };

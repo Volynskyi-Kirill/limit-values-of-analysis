@@ -3,7 +3,7 @@
 import { withAuth } from '@/lib/auth';
 
 function DashboardPage() {
-  return <div>Защищенная страница дашборда</div>;
+  return <div>Захищена сторінка дашборду</div>;
 }
 
 export default withAuth(DashboardPage);
