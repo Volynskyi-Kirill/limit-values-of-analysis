@@ -15,7 +15,7 @@ export const handleGetIndicatorsByTestId = async (request: any) => {
   if (!testId) {
     return { records: [] };
   }
-  
+
   const indicators = await prismaAdminJSClient.indicator.findMany({
     where: { testTypeId: Number(testId) },
   });
@@ -26,4 +26,10 @@ export const handleGetIndicatorsByTestId = async (request: any) => {
       label: indicator.name,
     })),
   };
+};
+
+export const handleBeforeSaveIndicatorRange = async (request: any) => {
+  const { payload } = request;
+  delete payload.testId;
+  return request;
 };

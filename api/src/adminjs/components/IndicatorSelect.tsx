@@ -36,7 +36,7 @@ const IndicatorSelect: React.FC<any> = (props) => {
 
   const handleIndicatorChange = (selected: any) => {
     setSelectedIndicator(selected);
-    onChange('indicatorId', selected?.value || '');
+    onChange('indicator', selected?.value || '');
   };
 
   if (!indicators.length) return null;

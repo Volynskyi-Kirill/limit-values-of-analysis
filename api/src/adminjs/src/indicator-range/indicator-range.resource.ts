@@ -2,6 +2,7 @@ import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 import { loadComponents } from '../../components/components';
 import {
   handleBeforeNewIndicatorRange,
+  handleBeforeSaveIndicatorRange,
   handleGetIndicatorsByTestId,
 } from './indicator-range.handler';
 import { DEFAULT_CREATED_BY_OPTION } from 'src/adminjs/shared/options';
@@ -23,11 +24,14 @@ export const IndicatorRangeResource = async () => {
       navigation: { icon: 'BarChart' },
       actions: {
         new: {
-          before: handleBeforeNewIndicatorRange,
+          before: [
+            handleBeforeSaveIndicatorRange,
+            handleBeforeNewIndicatorRange,
+          ],
           isAccessible: exceptMedicalEmployee,
         },
         edit: {
-          before: handleUpdatedAt,
+          before: [handleBeforeSaveIndicatorRange, handleUpdatedAt],
           isAccessible: exceptMedicalEmployee,
         },
         delete: {
