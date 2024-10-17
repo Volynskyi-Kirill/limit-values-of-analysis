@@ -73,6 +73,7 @@ const IndicatorSelect: React.FC<any> = ({ record, onChange, property }) => {
         options={indicators}
         onChange={handleIndicatorChange}
         placeholder="Оберіть індикатор"
+        required={property.isRequired}
       />
       {error && <FormMessage>{error}</FormMessage>}
     </FormGroup>

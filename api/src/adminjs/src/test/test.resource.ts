@@ -2,6 +2,7 @@ import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 import { loadComponents } from '../../components/components';
 import {
   applyIndicatorRange,
+  applyStatusBasedOnResult,
   handleBeforeNewTest,
   listAfterHook,
   showAfterHook,
@@ -22,10 +23,18 @@ export const TestResource = async () => {
       navigation: { icon: 'Clipboard' },
       actions: {
         new: {
-          before: [handleBeforeNewTest, applyIndicatorRange],
+          before: [
+            handleBeforeNewTest,
+            applyIndicatorRange,
+            applyStatusBasedOnResult,
+          ],
         },
         edit: {
-          before: [handleUpdatedAt, applyIndicatorRange],
+          before: [
+            handleUpdatedAt,
+            applyIndicatorRange,
+            applyStatusBasedOnResult,
+          ],
         },
         list: {
           after: listAfterHook,
@@ -40,6 +49,7 @@ export const TestResource = async () => {
           isVisible: false,
         },
         user: {
+          isRequired: true,
           position: 1,
         },
         testType: {
@@ -60,6 +70,9 @@ export const TestResource = async () => {
         },
         indicatorRange: {
           isVisible: false,
+        },
+        status: {
+          isVisible: { list: true, show: true, edit: false },
         },
       },
     },

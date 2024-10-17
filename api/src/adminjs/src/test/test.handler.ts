@@ -1,3 +1,4 @@
+import { TestStatus } from '@prisma/client';
 import { TRANSLATION_UA } from 'src/adminjs/translations/translations.ua';
 import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 
@@ -86,4 +87,14 @@ export const showAfterHook = async (response: any) => {
   const indicatorRange = await fetchIndicatorRangeDetails(indicatorRangeId);
   processRecordIndicatorDetails(record, indicatorRange);
   return response;
+};
+
+export const applyStatusBasedOnResult = async (request: any) => {
+  const isResultValue = !!request.payload.resultValue;
+  if (isResultValue) {
+    request.payload.status = TestStatus.DONE;
+  } else {
+    request.payload.status = TestStatus.IN_PROGRESS;
+  }
+  return request;
 };

@@ -75,6 +75,7 @@ const TestSelect: React.FC<any> = ({ record, onChange }) => {
         options={tests}
         onChange={handleTestChange}
         placeholder="Оберіть тест"
+        required={true}
       />
     </Box>
   );
