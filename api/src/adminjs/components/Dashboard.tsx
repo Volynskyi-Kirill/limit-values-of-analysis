@@ -118,24 +118,10 @@ const Dashboard: React.FC = () => {
           </Box>
         </Box>
 
-        <Button
-          onClick={handleDateChange}
-          marginTop="xl"
-          backgroundColor="#4CAF50"
-          color="#fff"
-          borderRadius="8px"
-          hoverColor="#45a049"
-        >
+        <Button onClick={handleDateChange} marginTop="xl" variant="primary">
           Застосувати
         </Button>
-        <Button
-          onClick={handleResetFilters}
-          marginTop="xl"
-          backgroundColor="#f44336"
-          color="#fff"
-          borderRadius="8px"
-          hoverColor="#e53935"
-        >
+        <Button onClick={handleResetFilters} marginTop="xl" variant="danger">
           Скинути
         </Button>
       </Box>
