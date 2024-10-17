@@ -5,3 +5,5 @@ import IndicatorSelect from '../src/adminjs/components/IndicatorSelect'
 AdminJS.UserComponents.IndicatorSelect = IndicatorSelect
 import TestSelect from '../src/adminjs/components/TestSelect'
 AdminJS.UserComponents.TestSelect = TestSelect
+import Dashboard from '../src/adminjs/components/Dashboard'
+AdminJS.UserComponents.Dashboard = Dashboard

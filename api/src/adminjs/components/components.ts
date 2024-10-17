@@ -9,6 +9,7 @@ export const loadComponents = async () => {
       './IndicatorSelect',
     ),
     TestSelect: componentLoader.add('TestSelect', './TestSelect'),
+    Dashboard: componentLoader.add('Dashboard', './Dashboard'),
   };
 
   return { componentLoader, Components };
