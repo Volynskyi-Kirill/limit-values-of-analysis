@@ -10,6 +10,7 @@ const api = new ApiClient();
 
 const TestSelect: React.FC<any> = (props) => {
   const { record, onChange } = props;
+  console.log('record: ', record);
   const [tests, setTests] = useState([]);
   const [selectedTest, setSelectedTest] = useState<any>(undefined);
 

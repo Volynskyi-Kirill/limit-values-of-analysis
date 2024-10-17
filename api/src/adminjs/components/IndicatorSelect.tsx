@@ -12,7 +12,6 @@ const IndicatorSelect: React.FC<any> = (props) => {
   const { record, onChange, property } = props;
   const [indicators, setIndicators] = useState([]);
   const [selectedIndicator, setSelectedIndicator] = useState<any>(undefined);
-  console.log('selectedIndicator: ', selectedIndicator);
 
   const error = record.errors?.[property.path]?.message;
 
