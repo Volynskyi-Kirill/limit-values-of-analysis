@@ -24,6 +24,28 @@ const TestSelect: React.FC<any> = (props) => {
         label: test.params.name,
       }));
       setTests(testOptions);
+
+      if (record.params.indicatorRange) {
+        const indicatorRangeResponse = await api.recordAction({
+          resourceId: 'IndicatorRange',
+          actionName: 'show',
+          recordId: record.params.indicatorRange,
+        });
+
+        const indicatorId = indicatorRangeResponse.data.record.params.indicator;
+        const indicatorResponse = await api.recordAction({
+          resourceId: 'Indicator',
+          actionName: 'show',
+          recordId: indicatorId,
+        });
+
+        const testTypeId = indicatorResponse.data.record.params.testType;
+        const initialTest = testOptions.find(
+          (option: any) => option.value === testTypeId,
+        );
+        setSelectedTest(initialTest || null);
+        onChange('testId', testTypeId);
+      }
     };
     fetchTests();
   }, []);

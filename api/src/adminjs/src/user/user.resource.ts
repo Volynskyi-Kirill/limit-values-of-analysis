@@ -42,6 +42,10 @@ export const UserResource = async (
         },
         birthDate: {
           type: 'date',
+          // type: 'string',
+          // props: {
+          //   type: 'date', // Use HTML date input
+          // },
         },
       },
     },

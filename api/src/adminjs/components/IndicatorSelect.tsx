@@ -4,14 +4,17 @@ import React, { useEffect, useState } from 'react';
 // @ts-ignore
 import { ApiClient } from 'adminjs';
 // @ts-ignore
-import { Label, Select, Box } from '@adminjs/design-system';
+import { Label, Select, FormGroup, FormMessage } from '@adminjs/design-system';
 
 const api = new ApiClient();
 
 const IndicatorSelect: React.FC<any> = (props) => {
-  const { record, onChange } = props;
+  const { record, onChange, property } = props;
   const [indicators, setIndicators] = useState([]);
   const [selectedIndicator, setSelectedIndicator] = useState<any>(undefined);
+  console.log('selectedIndicator: ', selectedIndicator);
+
+  const error = record.errors?.[property.path]?.message;
 
   useEffect(() => {
     const fetchIndicators = async () => {
@@ -27,8 +30,18 @@ const IndicatorSelect: React.FC<any> = (props) => {
           }),
         );
         setIndicators(indicatorOptions);
+
+        const indicatorId = record.populated.indicatorRange.params.indicator;
+        if (indicatorId) {
+          const initialIndicator = indicatorOptions.find(
+            (option: any) => option.value === indicatorId,
+          );
+          setSelectedIndicator(initialIndicator ?? null);
+          onChange('indicator', indicatorId);
+        }
       } else {
         setIndicators([]);
+        setSelectedIndicator(null);
       }
     };
     fetchIndicators();
@@ -42,9 +55,9 @@ const IndicatorSelect: React.FC<any> = (props) => {
   if (!indicators.length) return null;
 
   return (
-    <Box marginBottom="lg">
-      <Label htmlFor="indicatorSelect" required="true">
-        Індикатор
+    <FormGroup error={Boolean(error)}>
+      <Label htmlFor="indicatorSelect" required={property.isRequired}>
+        {property.label}
       </Label>
       <Select
         id="indicatorSelect"
@@ -53,7 +66,8 @@ const IndicatorSelect: React.FC<any> = (props) => {
         onChange={handleIndicatorChange}
         placeholder="Оберіть індикатор"
       />
-    </Box>
+      {error && <FormMessage>{error}</FormMessage>}
+    </FormGroup>
   );
 };
 
