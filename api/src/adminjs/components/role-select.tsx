@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // @ts-ignore
 import { useCurrentAdmin } from 'adminjs';
 // @ts-ignore
-import { Select } from '@adminjs/design-system';
+import { Select, Label } from '@adminjs/design-system';
 import { getAvailableRoles } from '../lib/helpers';
 import { generateRoleOptions } from '../shared/constants';
 
@@ -29,7 +29,9 @@ const RoleSelect: React.FC = (props: any) => {
 
   return (
     <>
-      <label htmlFor="roleSelect">Роль працівника</label>
+      <Label htmlFor="roleSelect" required="true">
+        Роль працівника
+      </Label>
       <Select
         id="roleSelect"
         name="role"

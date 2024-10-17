@@ -37,6 +37,16 @@ export const UserResource = async (
       },
       properties: {
         createdBy: DEFAULT_CREATED_BY_OPTION,
+        id: {
+          isVisible: false,
+        },
+        birthDate: {
+          type: 'date',
+          // type: 'string',
+          // props: {
+          //   type: 'date', // Use HTML date input
+          // },
+        },
       },
     },
   };
