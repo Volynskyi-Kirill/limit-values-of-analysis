@@ -40,6 +40,7 @@ export const IndicatorRangeResource = async () => {
         getIndicatorsByTestId: {
           actionType: 'resource',
           handler: handleGetIndicatorsByTestId,
+          isVisible: false,
         },
         list: {
           before: async (request: any, context: any) => {
