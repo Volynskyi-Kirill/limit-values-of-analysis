@@ -40,6 +40,12 @@ const Dashboard: React.FC = () => {
     fetchData();
   };
 
+  const handleResetFilters = () => {
+    setFromDate(null);
+    setToDate(null);
+    fetchData();
+  };
+
   const title =
     fromDate || toDate
       ? 'Кількість проведених тестів за обраний період:'
@@ -78,6 +84,10 @@ const Dashboard: React.FC = () => {
           {testCount !== null ? testCount : 'Завантаження...'}
         </Text>
 
+        <Text textAlign="center" variant="lg" marginTop="xl" color="#666">
+          Обрати період
+        </Text>
+
         <Box
           display="flex"
           justifyContent="space-between"
@@ -111,12 +121,22 @@ const Dashboard: React.FC = () => {
         <Button
           onClick={handleDateChange}
           marginTop="xl"
-          backgroundColor="#007bff"
+          backgroundColor="#4CAF50"
           color="#fff"
           borderRadius="8px"
-          hoverColor="#0056b3"
+          hoverColor="#45a049"
         >
           Застосувати
+        </Button>
+        <Button
+          onClick={handleResetFilters}
+          marginTop="xl"
+          backgroundColor="#f44336"
+          color="#fff"
+          borderRadius="8px"
+          hoverColor="#e53935"
+        >
+          Скинути
         </Button>
       </Box>
     </Box>
