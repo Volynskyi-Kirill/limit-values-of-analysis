@@ -66,6 +66,9 @@ export const TRANSLATION_UA = {
   },
 };
 
+export const MIN_NAME_LENGTH = 1;
+export const MAX_NAME_LENGTH = 50;
+
 export const UA_VALIDATION_MESSAGES = {
   email: {
     isEmail: 'Поле електронної пошти має бути валідним',
@@ -80,8 +83,17 @@ export const UA_VALIDATION_MESSAGES = {
   },
   firstName: {
     isNotEmpty: "Поле ім'я є обов’язковим",
+    length: `Поле ім'я повинно містити від ${MIN_NAME_LENGTH} до ${MAX_NAME_LENGTH} символів`,
   },
   lastName: {
     isNotEmpty: 'Поле прізвище є обов’язковим',
+    length: `Поле прізвище повинно містити від ${MIN_NAME_LENGTH} до ${MAX_NAME_LENGTH} символів`,
+  },
+  patronymic: {
+    isNotEmpty: 'Поле по батькові є обов’язковим',
+    length: `Поле по батькові повинно містити від ${MIN_NAME_LENGTH} до ${MAX_NAME_LENGTH} символів`,
+  },
+  gender: {
+    isEnum: 'Стать повинна бути або "чоловік" або "жінка"',
   },
 };

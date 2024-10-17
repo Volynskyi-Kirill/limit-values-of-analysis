@@ -65,7 +65,7 @@ const IndicatorSelect: React.FC<any> = ({ record, onChange, property }) => {
   return (
     <FormGroup error={Boolean(error)}>
       <Label htmlFor="indicatorSelect" required={property.isRequired}>
-        {property.label}
+        Індикатор
       </Label>
       <Select
         id="indicatorSelect"

@@ -1,10 +1,12 @@
 import { AuthService } from 'src/auth/auth.service';
 import { MailService } from 'src/mail/mail.service';
 
-import { validateUniqueEmail } from './user.validate';
+import { validateUniqueEmail, validateUserDto } from './user.validate';
 
 export const handleBeforeNewUser = async (request: any) => {
   const email = request.payload.email;
+
+  await validateUserDto(request.payload);
   await validateUniqueEmail(email);
 
   const currentUser = request.session.adminUser;
