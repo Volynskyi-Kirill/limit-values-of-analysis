@@ -19,9 +19,8 @@ enum Role {
 }
 
 enum TestStatus {
-  AWAITING_SUBMISSION @map("awaiting_submission")
-  IN_PROGRESS         @map("in_progress")
-  DONE                @map("done")
+  IN_PROGRESS @map("in_progress")
+  DONE        @map("done")
 }
 
 model Employee {
@@ -117,7 +116,7 @@ model Test {
   indicatorRangeId Int            @map("indicator_range_id")
   indicatorRange   IndicatorRange @relation(fields: [indicatorRangeId], references: [id])
   resultValue      Float?         @map("result_value")
-  status           TestStatus     @default(AWAITING_SUBMISSION) @map("status")
+  status           TestStatus     @default(IN_PROGRESS) @map("status")
   testDate         DateTime       @map("test_date")
   createdAt        DateTime       @default(now()) @map("created_at")
   updatedAt        DateTime       @updatedAt @map("updated_at")

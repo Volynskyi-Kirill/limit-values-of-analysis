@@ -53,3 +53,37 @@ export async function applyIndicatorRange(request: any) {
 
   return request;
 }
+
+const fetchIndicatorRangeDetails = async (indicatorRangeId: number) => {
+  return await prismaAdminJSClient.indicatorRange.findUnique({
+    where: { id: indicatorRangeId },
+    include: {
+      indicator: { include: { testType: true } },
+    },
+  });
+};
+
+const processRecordIndicatorDetails = (record: any, indicatorRange: any) => {
+  record.params.testType =
+    indicatorRange?.indicator?.testType?.name || 'Невідомий тип тесту';
+  record.params.indicator =
+    indicatorRange?.indicator?.name || 'Невідомий індикатор';
+};
+
+export const listAfterHook = async (response: any) => {
+  const { records } = response;
+  for (const record of records) {
+    const indicatorRangeId = record.params.indicatorRange;
+    const indicatorRange = await fetchIndicatorRangeDetails(indicatorRangeId);
+    processRecordIndicatorDetails(record, indicatorRange);
+  }
+  return response;
+};
+
+export const showAfterHook = async (response: any) => {
+  const record = response.record;
+  const indicatorRangeId = record.params.indicatorRange;
+  const indicatorRange = await fetchIndicatorRangeDetails(indicatorRangeId);
+  processRecordIndicatorDetails(record, indicatorRange);
+  return response;
+};

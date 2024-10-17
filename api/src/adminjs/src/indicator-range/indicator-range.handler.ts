@@ -33,3 +33,48 @@ export const handleBeforeSaveIndicatorRange = async (request: any) => {
   delete payload.testId;
   return request;
 };
+
+const fetchIndicatorWithTestType = async (indicatorId: number) => {
+  return await prismaAdminJSClient.indicator.findUnique({
+    where: { id: indicatorId },
+    include: { testType: true },
+  });
+};
+
+const setRecordTestType = (record: any, indicator: any) => {
+  record.params.testType = indicator?.testType?.name || 'Невідомий тест';
+};
+
+export const listBeforeHook = async (request: any) => {
+  request.query = {
+    ...request.query,
+    prisma: {
+      include: {
+        indicator: {
+          include: {
+            testType: true,
+          },
+        },
+      },
+    },
+  };
+  return request;
+};
+
+export const listAfterHook = async (response: any) => {
+  const { records } = response;
+  for (const record of records) {
+    const indicatorId = record.params.indicator;
+    const indicator = await fetchIndicatorWithTestType(indicatorId);
+    setRecordTestType(record, indicator);
+  }
+  return response;
+};
+
+export const showAfterHook = async (response: any) => {
+  const record = response.record;
+  const indicatorId = record.params.indicator;
+  const indicator = await fetchIndicatorWithTestType(indicatorId);
+  setRecordTestType(record, indicator);
+  return response;
+};

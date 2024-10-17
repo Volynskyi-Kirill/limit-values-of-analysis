@@ -1,6 +1,11 @@
 import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 import { loadComponents } from '../../components/components';
-import { applyIndicatorRange, handleBeforeNewTest } from './test.handler';
+import {
+  applyIndicatorRange,
+  handleBeforeNewTest,
+  listAfterHook,
+  showAfterHook,
+} from './test.handler';
 import { DEFAULT_CREATED_BY_OPTION } from 'src/adminjs/shared/options';
 import { handleUpdatedAt } from 'src/adminjs/shared/handlers';
 
@@ -23,49 +28,10 @@ export const TestResource = async () => {
           before: [handleUpdatedAt, applyIndicatorRange],
         },
         list: {
-          after: async (response: any) => {
-            const { records } = response;
-            for (const record of records) {
-              const indicatorRangeId = record.params.indicatorRange;
-
-              const indicatorRange =
-                await prismaAdminJSClient.indicatorRange.findUnique({
-                  where: { id: indicatorRangeId },
-                  include: {
-                    indicator: { include: { testType: true } },
-                  },
-                });
-
-              record.params.testType =
-                indicatorRange?.indicator?.testType?.name ||
-                'Невідомий тип тесту';
-              record.params.indicator =
-                indicatorRange?.indicator?.name || 'Невідомий індикатор';
-            }
-            return response;
-          },
+          after: listAfterHook,
         },
         show: {
-          after: async (response: any) => {
-            const record = response.record;
-            const indicatorRangeId = record.params.indicatorRange;
-
-            const indicatorRange =
-              await prismaAdminJSClient.indicatorRange.findUnique({
-                where: { id: indicatorRangeId },
-                include: {
-                  indicator: { include: { testType: true } },
-                },
-              });
-
-            record.params.testType =
-              indicatorRange?.indicator?.testType?.name ||
-              'Невідомий тип тесту';
-            record.params.indicator =
-              indicatorRange?.indicator?.name || 'Невідомий індикатор';
-
-            return response;
-          },
+          after: showAfterHook,
         },
       },
       properties: {

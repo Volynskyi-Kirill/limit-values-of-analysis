@@ -4,6 +4,9 @@ import {
   handleBeforeNewIndicatorRange,
   handleBeforeSaveIndicatorRange,
   handleGetIndicatorsByTestId,
+  listAfterHook,
+  listBeforeHook,
+  showAfterHook,
 } from './indicator-range.handler';
 import { DEFAULT_CREATED_BY_OPTION } from 'src/adminjs/shared/options';
 import {
@@ -43,53 +46,11 @@ export const IndicatorRangeResource = async () => {
           isVisible: false,
         },
         list: {
-          before: async (request: any, context: any) => {
-            request.query = {
-              ...request.query,
-              prisma: {
-                include: {
-                  indicator: {
-                    include: {
-                      testType: true,
-                    },
-                  },
-                },
-              },
-            };
-
-            return request;
-          },
-          after: async (response: any, request: any, context: any) => {
-            const { records } = response;
-
-            for (const record of records) {
-              const indicatorId = record.params.indicator;
-              const indicator = await prismaAdminJSClient.indicator.findUnique({
-                where: { id: indicatorId },
-                include: { testType: true },
-              });
-              record.params.testType =
-                indicator?.testType?.name || 'Невідомий тест';
-            }
-
-            return response;
-          },
+          before: listBeforeHook,
+          after: listAfterHook,
         },
         show: {
-          after: async (response: any, request: any, context: any) => {
-            const record = response.record;
-            const indicatorId = record.params.indicator;
-
-            const indicator = await prismaAdminJSClient.indicator.findUnique({
-              where: { id: indicatorId },
-              include: { testType: true },
-            });
-
-            record.params.testType =
-              indicator?.testType?.name || 'Невідомий тест';
-
-            return response;
-          },
+          after: showAfterHook,
         },
       },
       properties: {
