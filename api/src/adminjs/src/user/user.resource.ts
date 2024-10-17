@@ -40,6 +40,9 @@ export const UserResource = async (
         id: {
           isVisible: false,
         },
+        birthDate: {
+          type: 'date',
+        },
       },
     },
   };
