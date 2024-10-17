@@ -53,40 +53,43 @@ const Dashboard: React.FC = () => {
       display="flex"
       flexDirection="column"
       alignItems="center"
+      backgroundColor="#f5f7fa"
     >
-      <H2 textAlign="center" marginBottom="xl">
+      <H2 textAlign="center" marginBottom="xl" color="#333">
         Статистика проведених тестів
       </H2>
 
       <Box
         display="flex"
-        justifyContent="center"
+        flexDirection="column"
         alignItems="center"
-        width="100%"
+        backgroundColor="#fff"
+        borderRadius="8px"
+        boxShadow="0 4px 12px rgba(0, 0, 0, 0.1)"
+        padding="xxl"
+        width="90%"
+        maxWidth="800px"
       >
-        <Box
-          flex="1"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          textAlign="center"
-        >
-          <H2>{title}</H2>
-          <Text variant="lg" fontWeight="bold">
-            {testCount !== null ? testCount : 'Завантаження...'}
-          </Text>
-        </Box>
+        <Text textAlign="center" variant="lg" marginBottom="xl" color="#666">
+          {title}
+        </Text>
+
+        <Text variant="xl" fontWeight="bold" color="#007bff">
+          {testCount !== null ? testCount : 'Завантаження...'}
+        </Text>
 
         <Box
-          width="300px"
           display="flex"
-          flexDirection="column"
-          gap="lg"
+          justifyContent="space-between"
+          alignItems="center"
+          width="100%"
+          marginTop="xl"
           padding="lg"
-          borderLeft="1px solid #ccc"
+          borderRadius="8px"
+          border="1px solid #e0e0e0"
         >
-          <Box display="flex" flexDirection="column">
-            <Label>Початкова дата</Label>
+          <Box display="flex" flexDirection="column" width="45%">
+            <Label color="#555">Початкова дата</Label>
             <DatePicker
               value={fromDate ?? undefined}
               onChange={(date) =>
@@ -94,8 +97,8 @@ const Dashboard: React.FC = () => {
               }
             />
           </Box>
-          <Box display="flex" flexDirection="column">
-            <Label>Кінцева дата</Label>
+          <Box display="flex" flexDirection="column" width="45%">
+            <Label color="#555">Кінцева дата</Label>
             <DatePicker
               value={toDate ?? undefined}
               onChange={(date) =>
@@ -103,8 +106,18 @@ const Dashboard: React.FC = () => {
               }
             />
           </Box>
-          <Button onClick={handleDateChange}>Застосувати</Button>
         </Box>
+
+        <Button
+          onClick={handleDateChange}
+          marginTop="xl"
+          backgroundColor="#007bff"
+          color="#fff"
+          borderRadius="8px"
+          hoverColor="#0056b3"
+        >
+          Застосувати
+        </Button>
       </Box>
     </Box>
   );
