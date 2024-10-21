@@ -97,10 +97,9 @@ model IndicatorRange {
   indicatorId Int       @map("indicator_id")
   indicator   Indicator @relation(fields: [indicatorId], references: [id])
   gender      Gender    @map("gender")
-  // minAge      Int       @map("min_age")
-  // maxAge      Int       @map("max_age")
-  minValue    Float     @map("min_value")
-  maxValue    Float     @map("max_value")
+  minValue    Float?     @map("min_value")
+  maxValue    Float?    @map("max_value")
+  result      String?   @map("result")
   createdBy   Employee? @relation(fields: [createdById], references: [id])
   createdById Int?      @map("created_by_id")
   tests       Test[]

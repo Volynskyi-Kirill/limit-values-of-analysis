@@ -39,6 +39,7 @@ export const TRANSLATION_UA = {
     birthDate: 'Дата народження',
     gender: 'Стать',
     tests: 'Тести користувача',
+    document: 'Документ',
 
     // Поля TestType
     name: 'Назва',
