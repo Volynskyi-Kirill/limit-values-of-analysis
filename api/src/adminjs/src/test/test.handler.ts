@@ -90,8 +90,10 @@ export const showAfterHook = async (response: any) => {
 };
 
 export const applyStatusBasedOnResult = async (request: any) => {
-  const isResultValue = !!request.payload.resultValue;
-  if (isResultValue) {
+  const isResultValue =
+    !!request.payload.resultValue && Number(request.payload.resultValue) !== 0;
+  const resultText = !!request.payload.resultText;
+  if (isResultValue || resultText) {
     request.payload.status = TestStatus.DONE;
   } else {
     request.payload.status = TestStatus.IN_PROGRESS;
