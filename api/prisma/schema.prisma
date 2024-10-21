@@ -46,6 +46,7 @@ model Employee {
 
 model User {
   id         Int      @id @default(autoincrement()) @map("id")
+  document   String   @default("Невідомо") @map("document")
   firstName  String   @map("first_name")
   lastName   String   @map("last_name")
   patronymic String   @map("patronymic")
