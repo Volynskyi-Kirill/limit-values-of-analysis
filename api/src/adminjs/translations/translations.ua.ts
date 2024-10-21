@@ -57,11 +57,13 @@ export const TRANSLATION_UA = {
     minAge: 'Мінімальний вік',
     maxAge: 'Максимальний вік',
     indicatorRange: 'Діапазон значень',
+    result: 'Допустимий результат',
 
     // Поля Test
     userId: 'ID користувача',
     indicatorRangeId: 'ID діапазону індикатора',
     resultValue: 'Результат',
+    resultText: 'Результат (позитивний/негативний)',
     status: 'Статус',
     testDate: 'Дата тесту',
   },
