@@ -5,6 +5,7 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { MailService } from 'src/mail/mail.service';
 import { ConfirmAuthDto } from './dto/confirm-auth.dto';
 import { UserService } from 'src/user/user.service';
+import { LOGIN_SUBJECT } from 'src/shared/constants';
 
 @Controller('auth')
 export class AuthController {
@@ -25,7 +26,7 @@ export class AuthController {
 
     const token = await this.authService.generateToken(email);
     const html = await this.authService.createLink(token);
-    this.mailService.sendMessage({ email, html, subject: 'Magic link' });
+    this.mailService.sendMessage({ email, html, subject: LOGIN_SUBJECT });
   }
 
   @Public()
