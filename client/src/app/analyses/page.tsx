@@ -9,6 +9,7 @@ import { API_ROUTES } from '@/lib/config/apiRoutes';
 type AnalysesData = {
   [key: string]: {
     testType: {
+      id: number;
       name: string;
       description: string;
     };
@@ -22,7 +23,9 @@ type AnalysesData = {
 
 async function fetchAnalyses(userId: number): Promise<AnalysesData> {
   const token = localStorage.getItem('authToken');
-  const response = await fetch(`${API_ROUTES.ANALYSES.BY_USER}/${userId}`, {
+  const url = API_ROUTES.ANALYSES.BY_USER(userId);
+
+  const response = await fetch(url, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -46,7 +49,7 @@ function AnalysesPage() {
       try {
         const data = await fetchAnalyses(user?.id as number);
         setAnalyses(data);
-      } catch (err: any) {
+      } catch (err) {
         console.log('err: ', err);
         setError(
           'Неможливо завантажити аналізи. Будь ласка, спробуйте пізніше.'

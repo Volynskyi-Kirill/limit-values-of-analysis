@@ -9,6 +9,8 @@ export const API_ROUTES = {
     ME: `${BASE_URL}/user/me`,
   },
   ANALYSES: {
-    BY_USER: `${BASE_URL}/analyses`,
+    BY_USER: (userId: number) => `${BASE_URL}/analyses/user/${userId}`,
+    BY_USER_TEST_TYPE: (userId: number, testTypeId: number) =>
+      `${BASE_URL}/analyses/user/${userId}/testType/${testTypeId}`,
   },
 };
