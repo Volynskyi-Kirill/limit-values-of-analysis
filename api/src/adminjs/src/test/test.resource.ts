@@ -48,6 +48,9 @@ export const TestResource = async () => {
         id: {
           isVisible: false,
         },
+        updatedAt: {
+          isVisible: { list: false, show: true },
+        },
         user: {
           isRequired: true,
           position: 1,
@@ -67,6 +70,10 @@ export const TestResource = async () => {
             edit: Components.IndicatorSelect,
           },
           position: 3,
+        },
+        unit: {
+          isVisible: { list: true, show: true, edit: false },
+          position: 4,
         },
         indicatorRange: {
           isVisible: false,

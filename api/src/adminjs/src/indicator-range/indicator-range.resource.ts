@@ -58,17 +58,29 @@ export const IndicatorRangeResource = async () => {
         id: {
           isVisible: false,
         },
+        testType: {
+          isVisible: { list: true, show: true, edit: false },
+          isVirtual: true,
+          type: 'string',
+          position: 1,
+        },
         indicator: {
           reference: 'Indicator',
           isRequired: true,
           components: {
             edit: Components.IndicatorSelect,
           },
+          position: 2,
         },
-        testType: {
+        unit: {
           isVisible: { list: true, show: true, edit: false },
-          isVirtual: true,
-          type: 'string',
+          position: 3,
+        },
+        createdAt: {
+          isVisible: { list: false, show: true, filter: true },
+        },
+        updatedAt: {
+          isVisible: { list: false, show: true, filter: true },
         },
         testId: {
           reference: 'TestType',

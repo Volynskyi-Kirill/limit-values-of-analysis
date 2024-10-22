@@ -5,6 +5,7 @@ import { Gender } from '@/lib/constants';
 import { createContext, useContext, useState, useEffect } from 'react';
 
 export type User = {
+  document: string;
   firstName: string;
   lastName: string;
   patronymic: string;

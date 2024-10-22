@@ -67,6 +67,8 @@ const fetchIndicatorRangeDetails = async (indicatorRangeId: number) => {
 const processRecordIndicatorDetails = (record: any, indicatorRange: any) => {
   record.params.testType =
     indicatorRange?.indicator?.testType?.name || 'Невідомий тип тесту';
+  record.params.unit =
+    indicatorRange?.indicator?.unit || 'Невідомі одиниці виміру';
   record.params.indicator =
     indicatorRange?.indicator?.name || 'Невідомий індикатор';
 };

@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtGuard } from './auth/guards/jwt.guard';
+import { AnalysesModule } from './analyses/analyses.module';
 
 const jwtGuard = {
   provide: APP_GUARD,
@@ -26,6 +27,7 @@ const jwtGuard = {
     MailModule,
     AuthModule,
     UserModule,
+    AnalysesModule,
   ],
   controllers: [AppController],
   providers: [AppService, jwtGuard, PrismaService],

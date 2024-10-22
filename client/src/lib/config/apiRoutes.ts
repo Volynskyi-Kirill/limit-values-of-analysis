@@ -8,4 +8,7 @@ export const API_ROUTES = {
   USER: {
     ME: `${BASE_URL}/user/me`,
   },
+  ANALYSES: {
+    BY_USER: `${BASE_URL}/analyses`,
+  },
 };

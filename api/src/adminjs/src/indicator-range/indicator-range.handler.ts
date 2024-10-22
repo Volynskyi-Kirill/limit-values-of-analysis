@@ -43,6 +43,7 @@ const fetchIndicatorWithTestType = async (indicatorId: number) => {
 
 const setRecordTestType = (record: any, indicator: any) => {
   record.params.testType = indicator?.testType?.name || 'Невідомий тест';
+  record.params.unit = indicator?.unit || 'Невідомий індикатор';
 };
 
 export const listBeforeHook = async (request: any) => {
