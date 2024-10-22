@@ -1,6 +1,6 @@
 'use client';
 
-import { Gender } from '@/lib/constants';
+import { Gender, LOCAL_STORAGE_KEYS } from '@/lib/constants';
 import { createContext, useContext, useState, useEffect } from 'react';
 
 export type User = {
@@ -34,8 +34,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const checkAuth = () => {
-      const token = localStorage.getItem('authToken');
-      const storedUser = localStorage.getItem('user');
+      const token = localStorage.getItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN);
+      const storedUser = localStorage.getItem(LOCAL_STORAGE_KEYS.USER);
 
       if (token) {
         setIsAuthenticated(true);
@@ -52,20 +52,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = (token: string) => {
-    localStorage.setItem('authToken', token);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN, token);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('user');
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.USER);
     setIsAuthenticated(false);
     setUser(null);
   };
 
   const handleSetUser = (user: User) => {
     setUser(user);
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem(LOCAL_STORAGE_KEYS.USER, JSON.stringify(user));
   };
 
   return (

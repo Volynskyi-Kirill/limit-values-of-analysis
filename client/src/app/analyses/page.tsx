@@ -5,6 +5,7 @@ import { useAuth } from '@/components/auth/AuthProvider';
 import { withAuth } from '@/lib/auth';
 import { AnalysisCard } from '@/components/AnalysisCard';
 import { API_ROUTES } from '@/lib/config/apiRoutes';
+import { LOCAL_STORAGE_KEYS } from '@/lib/constants';
 
 type AnalysesData = {
   [key: string]: {
@@ -22,7 +23,7 @@ type AnalysesData = {
 };
 
 async function fetchAnalyses(userId: number): Promise<AnalysesData> {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN);
   const url = API_ROUTES.ANALYSES.BY_USER(userId);
 
   const response = await fetch(url, {

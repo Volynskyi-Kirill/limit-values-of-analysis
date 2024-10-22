@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { API_ROUTES } from '@/lib/config/apiRoutes';
 import { useAuth } from '@/components/auth/AuthProvider';
-import { TestStatus } from '@/lib/constants';
+import { LOCAL_STORAGE_KEYS, TestStatus } from '@/lib/constants';
 
 type Test = {
   id: number;
@@ -39,7 +39,7 @@ async function fetchAnalysisDetails(
   userId: number,
   testTypeId: number
 ): Promise<Test[]> {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN);
   const url = API_ROUTES.ANALYSES.BY_USER_TEST_TYPE(userId, testTypeId);
 
   const response = await fetch(url, {

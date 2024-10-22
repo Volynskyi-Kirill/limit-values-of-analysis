@@ -90,14 +90,7 @@ const getStatusInfo = (test: Test) => {
     };
   }
 
-  if (isResultOutOfBounds) {
-    return {
-      cardStatus: CARD_STATUSES.ERROR,
-      statusText: STATUS_TEXTS[CARD_STATUSES.ERROR],
-    };
-  }
-
-  if (isResultTextMismatch) {
+  if (isResultOutOfBounds || isResultTextMismatch) {
     return {
       cardStatus: CARD_STATUSES.ERROR,
       statusText: STATUS_TEXTS[CARD_STATUSES.ERROR],
