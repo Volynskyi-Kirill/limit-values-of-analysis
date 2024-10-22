@@ -31,7 +31,7 @@ export function AnalysisCard({ analysis }: { analysis: Analysis }) {
   return (
     <Link href={`/analyses/${analysis.testType.id}`}>
       <Card
-        className={`w-full ${
+        className={`w-full h-full ${
           isCompleted ? 'bg-green-50' : 'bg-yellow-50'
         } hover:shadow-md transition-shadow`}
       >
