@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
+import { TestStatus } from '@/lib/constants';
 
 type Analysis = {
   testType: {
@@ -22,7 +23,7 @@ type Analysis = {
 };
 
 export function AnalysisCard({ analysis }: { analysis: Analysis }) {
-  const isCompleted = analysis.tests.every((test) => test.status === 'DONE');
+  const isCompleted = analysis.tests.every((test) => test.status === TestStatus.DONE);
   const status = isCompleted ? 'Завершено' : 'Очікування';
   const latestDate = new Date(
     Math.max(...analysis.tests.map((t) => new Date(t.testDate).getTime()))
