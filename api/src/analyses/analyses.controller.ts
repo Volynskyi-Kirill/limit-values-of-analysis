@@ -7,8 +7,23 @@ export class AnalysesController {
   constructor(private readonly analysesService: AnalysesService) {}
 
   @Public()
-  @Get('/:userId')
-  getAnalysesByUser(@Param('userId', ParseIntPipe) userId: number) {
+  @Get('/user/:userId')
+  findAnalysesByUser(@Param('userId', ParseIntPipe) userId: number) {
     return this.analysesService.findAnalysesByUser(userId);
+  }
+
+  @Public()
+  @Get('/:id')
+  findAnalysisById(@Param('id', ParseIntPipe) id: number) {
+    return this.analysesService.findAnalysisById(id);
+  }
+
+  @Public()
+  @Get('/user/:userId/testType/:testTypeId')
+  findUserAnalysesByTestType(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Param('testTypeId', ParseIntPipe) testTypeId: number,
+  ) {
+    return this.analysesService.findUserAnalysesByTestType(userId, testTypeId);
   }
 }

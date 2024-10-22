@@ -20,38 +20,67 @@ type GroupedAnalyses = {
   };
 };
 
+const ANALYSIS_SEARCH_OPTIONS = {
+  include: {
+    indicatorRange: {
+      select: {
+        gender: true,
+        minValue: true,
+        maxValue: true,
+        result: true,
+        indicator: {
+          select: {
+            id: true,
+            name: true,
+            unit: true,
+            description: true,
+            testType: {
+              select: {
+                id: true,
+                name: true,
+                description: true,
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 @Injectable()
 export class AnalysesService {
   constructor(private prismaService: PrismaService) {}
+
+  findAnalysisById(id: number) {
+    return this.prismaService.test.findUnique({
+      where: { id },
+      ...ANALYSIS_SEARCH_OPTIONS,
+    });
+  }
+
+  async findUserAnalysesByTestType(userId: number, testTypeId: number) {
+    const analyses = await this.prismaService.test.findMany({
+      where: {
+        userId,
+        indicatorRange: {
+          indicator: {
+            testTypeId,
+          },
+        },
+      },
+      ...ANALYSIS_SEARCH_OPTIONS,
+    });
+
+    return analyses;
+  }
 
   async findAnalysesByUser(userId: number) {
     const analyses = await this.prismaService.test.findMany({
       where: {
         userId,
       },
-      include: {
-        indicatorRange: {
-          select: {
-            gender: true,
-            minValue: true,
-            maxValue: true,
-            result: true,
-            indicator: {
-              select: {
-                name: true,
-                unit: true,
-                description: true,
-                testType: {
-                  select: {
-                    name: true,
-                    description: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
+      ...ANALYSIS_SEARCH_OPTIONS,
     });
 
     const groupedByTestType = analyses.reduce<GroupedAnalyses>(
