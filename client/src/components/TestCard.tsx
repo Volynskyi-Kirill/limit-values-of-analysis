@@ -1,4 +1,3 @@
-// src/components/TestCard.tsx
 import {
   Card,
   CardHeader,
@@ -7,14 +6,14 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Badge, BadgeProps } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 
 type Test = {
   id: number;
   resultValue: number | null;
   resultText: string | null;
-  status: string;
+  status: 'DONE' | 'IN_PROGRESS';
   testDate: string;
   indicatorRange: {
     gender: string;
@@ -30,20 +29,23 @@ type Test = {
 };
 
 export function TestCard({ test }: { test: Test }) {
-  const { indicatorRange, resultValue, resultText, testDate } = test;
+  const { indicatorRange, resultValue, resultText, status, testDate } = test;
   const { indicator, minValue, maxValue, result } = indicatorRange;
 
-  let status: 'normal' | 'warning' | 'error' = 'normal';
+  let cardStatus: 'normal' | 'warning' | 'error' | 'processing' = 'normal';
   let statusText = 'Норма';
 
-  if (resultValue !== null && minValue !== null && maxValue !== null) {
+  if (status === 'IN_PROGRESS') {
+    cardStatus = 'processing';
+    statusText = 'Обробляється';
+  } else if (resultValue !== null && minValue !== null && maxValue !== null) {
     if (resultValue < minValue || resultValue > maxValue) {
-      status = 'error';
+      cardStatus = 'error';
       statusText = 'Відхилення';
     }
   } else if (resultText && result) {
     if (resultText.toLowerCase() !== result.toLowerCase()) {
-      status = 'error';
+      cardStatus = 'error';
       statusText = 'Відхилення';
     }
   }
@@ -52,10 +54,21 @@ export function TestCard({ test }: { test: Test }) {
     normal: 'bg-green-50 border-green-200',
     warning: 'bg-yellow-50 border-yellow-200',
     error: 'bg-red-50 border-red-200',
+    processing: 'bg-blue-50 border-blue-200',
+  };
+
+  const statusBadgeVariant: Record<
+    'normal' | 'warning' | 'error' | 'processing',
+    BadgeProps['variant']
+  > = {
+    normal: 'default',
+    warning: 'secondary',
+    error: 'destructive',
+    processing: 'secondary',
   };
 
   return (
-    <Card className={`w-full ${statusColors[status]}`}>
+    <Card className={`w-full ${statusColors[cardStatus]}`}>
       <CardHeader>
         <div className='flex justify-between items-start'>
           <div>
@@ -64,10 +77,7 @@ export function TestCard({ test }: { test: Test }) {
               {indicator.description}
             </CardDescription>
           </div>
-          <Badge
-            variant={status === 'normal' ? 'default' : 'destructive'}
-            className='ml-2'
-          >
+          <Badge variant={statusBadgeVariant[cardStatus]} className='ml-2'>
             {statusText}
           </Badge>
         </div>
@@ -81,7 +91,11 @@ export function TestCard({ test }: { test: Test }) {
         <div className='flex justify-between items-center mb-2'>
           <span className='text-sm font-medium'>Результат:</span>
           <span className='text-lg font-semibold'>
-            {resultValue !== null ? resultValue : resultText}
+            {status === 'IN_PROGRESS'
+              ? 'Обробляється'
+              : resultValue !== null
+              ? resultValue
+              : resultText}
           </span>
         </div>
         <Separator className='my-2' />

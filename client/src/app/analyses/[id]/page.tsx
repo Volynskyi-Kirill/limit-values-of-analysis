@@ -13,7 +13,7 @@ type Test = {
   id: number;
   resultValue: number | null;
   resultText: string | null;
-  status: string;
+  status: 'DONE' | 'IN_PROGRESS';
   testDate: string;
   indicatorRange: {
     gender: string;
