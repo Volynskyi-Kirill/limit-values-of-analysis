@@ -8,12 +8,13 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { API_ROUTES } from '@/lib/config/apiRoutes';
 import { useAuth } from '@/components/auth/AuthProvider';
+import { TestStatus } from '@/lib/constants';
 
 type Test = {
   id: number;
   resultValue: number | null;
   resultText: string | null;
-  status: 'DONE' | 'IN_PROGRESS';
+  status: TestStatus;
   testDate: string;
   indicatorRange: {
     gender: string;

@@ -8,12 +8,13 @@ import {
 } from '@/components/ui/card';
 import { Badge, BadgeProps } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { TestStatus } from '@/lib/constants';
 
 type Test = {
   id: number;
   resultValue: number | null;
   resultText: string | null;
-  status: 'DONE' | 'IN_PROGRESS';
+  status: TestStatus;
   testDate: string;
   indicatorRange: {
     gender: string;
@@ -28,44 +29,92 @@ type Test = {
   };
 };
 
-export function TestCard({ test }: { test: Test }) {
-  const { indicatorRange, resultValue, resultText, status, testDate } = test;
-  const { indicator, minValue, maxValue, result } = indicatorRange;
+const CARD_STATUSES = {
+  NORMAL: 'NORMAL',
+  WARNING: 'WARNING',
+  ERROR: 'ERROR',
+  PROCESSING: 'PROCESSING',
+} as const;
 
-  let cardStatus: 'normal' | 'warning' | 'error' | 'processing' = 'normal';
-  let statusText = 'Норма';
+const STATUS_TEXTS = {
+  [CARD_STATUSES.NORMAL]: 'Норма',
+  [CARD_STATUSES.PROCESSING]: 'Обробляється',
+  [CARD_STATUSES.ERROR]: 'Відхилення',
+};
 
-  if (status === 'IN_PROGRESS') {
-    cardStatus = 'processing';
-    statusText = 'Обробляється';
-  } else if (resultValue !== null && minValue !== null && maxValue !== null) {
-    if (resultValue < minValue || resultValue > maxValue) {
-      cardStatus = 'error';
-      statusText = 'Відхилення';
-    }
-  } else if (resultText && result) {
-    if (resultText.toLowerCase() !== result.toLowerCase()) {
-      cardStatus = 'error';
-      statusText = 'Відхилення';
-    }
+const LABELS = {
+  UNIT: 'Одиниці виміру:',
+  RESULT: 'Результат:',
+  NORM: 'Норма:',
+  EXPECTED_RESULT: 'Очікуваний результат:',
+  DATE: 'Дата аналізу:',
+};
+
+const statusColors: Record<
+  (typeof CARD_STATUSES)[keyof typeof CARD_STATUSES],
+  string
+> = {
+  [CARD_STATUSES.NORMAL]: 'bg-green-50 border-green-200',
+  [CARD_STATUSES.WARNING]: 'bg-yellow-50 border-yellow-200',
+  [CARD_STATUSES.ERROR]: 'bg-red-50 border-red-200',
+  [CARD_STATUSES.PROCESSING]: 'bg-blue-50 border-blue-200',
+};
+
+const statusBadgeVariant: Record<
+  (typeof CARD_STATUSES)[keyof typeof CARD_STATUSES],
+  BadgeProps['variant']
+> = {
+  [CARD_STATUSES.NORMAL]: 'default',
+  [CARD_STATUSES.WARNING]: 'secondary',
+  [CARD_STATUSES.ERROR]: 'destructive',
+  [CARD_STATUSES.PROCESSING]: 'secondary',
+};
+
+const getStatusInfo = (test: Test) => {
+  const { resultValue, resultText, status, indicatorRange } = test;
+  const { minValue, maxValue, result } = indicatorRange;
+
+  const isInProgress = status === TestStatus.IN_PROGRESS;
+  const isResultOutOfBounds =
+    resultValue !== null &&
+    minValue !== null &&
+    maxValue !== null &&
+    (resultValue < minValue || resultValue > maxValue);
+  const isResultTextMismatch =
+    resultText && result && resultText.toLowerCase() !== result.toLowerCase();
+
+  if (isInProgress) {
+    return {
+      cardStatus: CARD_STATUSES.PROCESSING,
+      statusText: STATUS_TEXTS[CARD_STATUSES.PROCESSING],
+    };
   }
 
-  const statusColors = {
-    normal: 'bg-green-50 border-green-200',
-    warning: 'bg-yellow-50 border-yellow-200',
-    error: 'bg-red-50 border-red-200',
-    processing: 'bg-blue-50 border-blue-200',
-  };
+  if (isResultOutOfBounds) {
+    return {
+      cardStatus: CARD_STATUSES.ERROR,
+      statusText: STATUS_TEXTS[CARD_STATUSES.ERROR],
+    };
+  }
 
-  const statusBadgeVariant: Record<
-    'normal' | 'warning' | 'error' | 'processing',
-    BadgeProps['variant']
-  > = {
-    normal: 'default',
-    warning: 'secondary',
-    error: 'destructive',
-    processing: 'secondary',
+  if (isResultTextMismatch) {
+    return {
+      cardStatus: CARD_STATUSES.ERROR,
+      statusText: STATUS_TEXTS[CARD_STATUSES.ERROR],
+    };
+  }
+
+  return {
+    cardStatus: CARD_STATUSES.NORMAL,
+    statusText: STATUS_TEXTS[CARD_STATUSES.NORMAL],
   };
+};
+
+export function TestCard({ test }: { test: Test }) {
+  const { indicatorRange, resultValue, resultText, testDate } = test;
+  const { indicator, minValue, maxValue, result } = indicatorRange;
+
+  const { cardStatus, statusText } = getStatusInfo(test);
 
   return (
     <Card className={`w-full ${statusColors[cardStatus]}`}>
@@ -84,38 +133,38 @@ export function TestCard({ test }: { test: Test }) {
       </CardHeader>
       <CardContent className='pt-4'>
         <div className='flex justify-between items-center mb-2'>
-          <span className='text-sm font-medium'>Одиниці виміру:</span>
+          <span className='text-sm font-medium'>{LABELS.UNIT}</span>
           <span className='text-sm'>{indicator.unit}</span>
         </div>
         <Separator className='my-2' />
         <div className='flex justify-between items-center mb-2'>
-          <span className='text-sm font-medium'>Результат:</span>
+          <span className='text-sm font-medium'>{LABELS.RESULT}</span>
           <span className='text-lg font-semibold'>
-            {status === 'IN_PROGRESS'
-              ? 'Обробляється'
-              : resultValue !== null
-              ? resultValue
-              : resultText}
+            {test.status === TestStatus.IN_PROGRESS
+              ? STATUS_TEXTS[CARD_STATUSES.PROCESSING]
+              : resultValue ?? resultText}
           </span>
         </div>
         <Separator className='my-2' />
         {minValue !== null && maxValue !== null ? (
           <div className='flex justify-between items-center'>
-            <span className='text-sm font-medium'>Норма:</span>
+            <span className='text-sm font-medium'>{LABELS.NORM}</span>
             <span className='text-sm'>
               {minValue} - {maxValue}
             </span>
           </div>
         ) : result ? (
           <div className='flex justify-between items-center'>
-            <span className='text-sm font-medium'>Очікуваний результат:</span>
+            <span className='text-sm font-medium'>
+              {LABELS.EXPECTED_RESULT}
+            </span>
             <span className='text-sm'>{result}</span>
           </div>
         ) : null}
       </CardContent>
       <CardFooter>
         <p className='text-sm text-muted-foreground w-full text-right'>
-          Дата аналізу: {new Date(testDate).toLocaleDateString()}
+          {LABELS.DATE} {new Date(testDate).toLocaleDateString()}
         </p>
       </CardFooter>
     </Card>
