@@ -16,7 +16,7 @@ export function withAuth(Component: React.ComponentType) {
     }, [isAuthenticated, isLoading, router]);
 
     if (isLoading) {
-      return <div>Загрузка...</div>; // или любой другой компонент загрузки
+      return <div>ЗЗавантаження...</div>; //TODO loader
     }
 
     if (!isAuthenticated) {

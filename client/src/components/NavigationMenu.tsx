@@ -21,7 +21,7 @@ export function NavigationMenu() {
           <Link href='/profile' className='hover:underline'>
             Профіль
           </Link>
-          <Link href='/tests' className='hover:underline'>
+          <Link href='/analyses' className='hover:underline'>
             Аналізи
           </Link>
           <Button variant='secondary' onClick={logout}>

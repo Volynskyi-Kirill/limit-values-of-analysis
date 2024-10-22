@@ -1,10 +1,10 @@
-// src/components/auth/AuthProvider.tsx
 'use client';
 
 import { Gender } from '@/lib/constants';
 import { createContext, useContext, useState, useEffect } from 'react';
 
 export type User = {
+  id: number;
   document: string;
   firstName: string;
   lastName: string;
@@ -35,9 +35,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const checkAuth = () => {
       const token = localStorage.getItem('authToken');
+      const storedUser = localStorage.getItem('user');
+
       if (token) {
         setIsAuthenticated(true);
       }
+
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+
       setIsLoading(false);
     };
 
@@ -51,13 +58,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
     setIsAuthenticated(false);
     setUser(null);
   };
 
+  const handleSetUser = (user: User) => {
+    setUser(user);
+    localStorage.setItem('user', JSON.stringify(user));
+  };
+
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, isLoading, user, login, logout, setUser }}
+      value={{
+        isAuthenticated,
+        isLoading,
+        user,
+        login,
+        logout,
+        setUser: handleSetUser,
+      }}
     >
       {children}
     </AuthContext.Provider>
