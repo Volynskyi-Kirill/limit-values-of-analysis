@@ -1,4 +1,5 @@
 import { TestStatus } from '@prisma/client';
+import { formatText } from 'src/adminjs/shared/utils';
 import { TRANSLATION_UA } from 'src/adminjs/translations/translations.ua';
 import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 
@@ -8,6 +9,14 @@ export const handleBeforeNewTest = async (request: any) => {
   // await validateEmployeeDto(request.payload);
 
   request.payload.createdBy = currentUser.id;
+  request.payload.resultText = formatText(request.payload.resultText);
+
+  return request;
+};
+
+export const handleBeforeUpdateTest = async (request: any) => {
+  request.payload.resultText = formatText(request.payload.resultText);
+
   return request;
 };
 
@@ -99,6 +108,13 @@ export const applyStatusBasedOnResult = async (request: any) => {
     request.payload.status = TestStatus.DONE;
   } else {
     request.payload.status = TestStatus.IN_PROGRESS;
+  }
+
+  if (request.payload.resultValue === '') {
+    request.payload.resultValue = null;
+  }
+  if (request.payload.resultText === '') {
+    request.payload.resultText = null;
   }
   return request;
 };

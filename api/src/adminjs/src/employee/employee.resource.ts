@@ -3,7 +3,6 @@ import {
   handleAfterListEmployees,
   handleBeforeEditEmployee,
   handleBeforeNewEmployee,
-  handleDeleteAccessEmployee,
   handleEditAccessEmployee,
 } from './employee.handler';
 import { loadComponents } from '../../components/components';

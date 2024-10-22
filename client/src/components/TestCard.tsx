@@ -1,3 +1,4 @@
+// src/components/TestCard.tsx
 import {
   Card,
   CardHeader,
@@ -7,6 +8,7 @@ import {
   CardFooter,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 
 type Test = {
   id: number;
@@ -57,31 +59,48 @@ export function TestCard({ test }: { test: Test }) {
       <CardHeader>
         <div className='flex justify-between items-start'>
           <div>
-            <CardTitle>{indicator.name}</CardTitle>
-            <CardDescription>{indicator.description}</CardDescription>
+            <CardTitle className='text-lg'>{indicator.name}</CardTitle>
+            <CardDescription className='mt-1'>
+              {indicator.description}
+            </CardDescription>
           </div>
-          <Badge variant={status === 'normal' ? 'default' : 'destructive'}>
+          <Badge
+            variant={status === 'normal' ? 'default' : 'destructive'}
+            className='ml-2'
+          >
             {statusText}
           </Badge>
         </div>
       </CardHeader>
-      <CardContent>
-        <p className='font-semibold'>
-          Результат: {resultValue !== null ? resultValue : resultText}{' '}
-          {indicator.unit}
-        </p>
+      <CardContent className='pt-4'>
+        <div className='flex justify-between items-center mb-2'>
+          <span className='text-sm font-medium'>Одиниці виміру:</span>
+          <span className='text-sm'>{indicator.unit}</span>
+        </div>
+        <Separator className='my-2' />
+        <div className='flex justify-between items-center mb-2'>
+          <span className='text-sm font-medium'>Результат:</span>
+          <span className='text-lg font-semibold'>
+            {resultValue !== null ? resultValue : resultText}
+          </span>
+        </div>
+        <Separator className='my-2' />
         {minValue !== null && maxValue !== null ? (
-          <p className='text-sm text-muted-foreground'>
-            Норма: {minValue} - {maxValue} {indicator.unit}
-          </p>
+          <div className='flex justify-between items-center'>
+            <span className='text-sm font-medium'>Норма:</span>
+            <span className='text-sm'>
+              {minValue} - {maxValue}
+            </span>
+          </div>
         ) : result ? (
-          <p className='text-sm text-muted-foreground'>
-            Очікуваний результат: {result}
-          </p>
+          <div className='flex justify-between items-center'>
+            <span className='text-sm font-medium'>Очікуваний результат:</span>
+            <span className='text-sm'>{result}</span>
+          </div>
         ) : null}
       </CardContent>
       <CardFooter>
-        <p className='text-sm text-muted-foreground'>
+        <p className='text-sm text-muted-foreground w-full text-right'>
           Дата аналізу: {new Date(testDate).toLocaleDateString()}
         </p>
       </CardFooter>

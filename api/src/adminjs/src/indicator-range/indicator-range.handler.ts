@@ -1,9 +1,12 @@
+import { formatText } from 'src/adminjs/shared/utils';
 import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 
 export const handleBeforeNewIndicatorRange = async (request: any) => {
   const currentUser = request.session.adminUser;
 
   // await validateEmployeeDto(request.payload);
+
+  request.payload.resultText = formatText(request.payload.resultText);
 
   request.payload.createdBy = currentUser.id;
   return request;
@@ -31,6 +34,8 @@ export const handleGetIndicatorsByTestId = async (request: any) => {
 export const handleBeforeSaveIndicatorRange = async (request: any) => {
   const { payload } = request;
   delete payload.testId;
+  request.payload.resultText = formatText(request.payload.resultText);
+
   return request;
 };
 

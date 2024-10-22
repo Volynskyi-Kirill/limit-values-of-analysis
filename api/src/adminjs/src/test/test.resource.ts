@@ -4,6 +4,7 @@ import {
   applyIndicatorRange,
   applyStatusBasedOnResult,
   handleBeforeNewTest,
+  handleBeforeUpdateTest,
   listAfterHook,
   showAfterHook,
 } from './test.handler';
@@ -31,6 +32,7 @@ export const TestResource = async () => {
         },
         edit: {
           before: [
+            handleBeforeUpdateTest,
             handleUpdatedAt,
             applyIndicatorRange,
             applyStatusBasedOnResult,
