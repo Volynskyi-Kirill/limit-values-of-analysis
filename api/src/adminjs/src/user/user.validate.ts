@@ -1,5 +1,4 @@
-import { plainToInstance } from 'class-transformer';
-import { validate } from 'class-validator';
+import { validateDto } from 'src/adminjs/shared/validate.dto';
 import { UA_VALIDATION_MESSAGES } from 'src/adminjs/translations/translations.ua';
 import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
@@ -20,23 +19,5 @@ export const validateUniqueEmail = async (email: string) => {
 };
 
 export const validateUserDto = async (payload: any) => {
-  const createUserDto = plainToInstance(CreateUserDto, payload);
-
-  const errors = await validate(createUserDto);
-
-  if (errors.length > 0) {
-    const validationErrors: Record<string, any> = {};
-
-    errors.forEach((error) => {
-      if (error.constraints) {
-        validationErrors[error.property] = {
-          message: Object.values(error.constraints).join(', '),
-        };
-      }
-    });
-
-    const { ValidationError } = await import('adminjs');
-
-    throw new ValidationError(validationErrors);
-  }
+  await validateDto(CreateUserDto, payload);
 };

@@ -64,6 +64,15 @@ export const IndicatorRangeResource = async () => {
           type: 'string',
           position: 1,
         },
+        testId: {
+          reference: 'TestType',
+          isRequired: true,
+          isVisible: { list: false, show: false, edit: true },
+          components: {
+            edit: Components.TestSelect,
+          },
+          position: 1,
+        },
         indicator: {
           reference: 'Indicator',
           isRequired: true,
@@ -81,14 +90,6 @@ export const IndicatorRangeResource = async () => {
         },
         updatedAt: {
           isVisible: { list: false, show: true, filter: true },
-        },
-        testId: {
-          reference: 'TestType',
-          isRequired: true,
-          isVisible: { list: false, show: false, edit: true },
-          components: {
-            edit: Components.TestSelect,
-          },
         },
       },
     },
