@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Card,
   CardHeader,
@@ -8,6 +10,8 @@ import {
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { TestStatus } from '@/lib/constants';
+import { useState } from 'react';
+import { Loader } from './ui/loader';
 
 type Analysis = {
   testType: {
@@ -23,6 +27,7 @@ type Analysis = {
 };
 
 export function AnalysisCard({ analysis }: { analysis: Analysis }) {
+  const [isLoading, setIsLoading] = useState(false);
   const isCompleted = analysis.tests.every(
     (test) => test.status === TestStatus.DONE
   );
@@ -30,8 +35,16 @@ export function AnalysisCard({ analysis }: { analysis: Analysis }) {
   const testDate = new Date(analysis.tests[0].testDate);
   const formattedTestDate = testDate.toISOString();
 
+  const handleLinkClick = () => {
+    setIsLoading(true);
+  };
+
   return (
-    <Link href={`/analyses/${analysis.testType.id}/${formattedTestDate}`}>
+    <Link
+      href={`/analyses/${analysis.testType.id}/${formattedTestDate}`}
+      onClick={handleLinkClick}
+    >
+      {isLoading && <Loader />}
       <Card
         className={`w-full h-full ${
           isCompleted ? 'bg-green-50' : 'bg-yellow-50'
