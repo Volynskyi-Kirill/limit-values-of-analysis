@@ -44,6 +44,7 @@ export const TestResource = async () => {
         show: {
           after: showAfterHook,
         },
+        
       },
       properties: {
         createdBy: DEFAULT_CREATED_BY_OPTION,

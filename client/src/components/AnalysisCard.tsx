@@ -68,7 +68,7 @@ export function AnalysisCard({ analysis }: { analysis: Analysis }) {
             Кількість показників: {analysis.tests.length}
           </p>
           <p className='text-sm text-muted-foreground'>
-            Дата здачі останнього показника: {testDate.toLocaleDateString()}
+            Дата здачі: {testDate.toLocaleDateString()}
           </p>
         </CardContent>
       </Card>

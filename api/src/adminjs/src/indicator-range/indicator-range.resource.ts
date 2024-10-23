@@ -38,7 +38,7 @@ export const IndicatorRangeResource = async () => {
           isAccessible: exceptMedicalEmployee,
         },
         delete: {
-          isAccessible: exceptMedicalEmployee,
+          isAccessible: false,
         },
         getIndicatorsByTestId: {
           actionType: 'resource',

@@ -1,6 +1,9 @@
 import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 import { loadComponents } from '../../components/components';
-import { handleBeforeEditTestType, handleBeforeNewIndicator } from './indicator.handler';
+import {
+  handleBeforeEditTestType,
+  handleBeforeNewIndicator,
+} from './indicator.handler';
 import { DEFAULT_CREATED_BY_OPTION } from 'src/adminjs/shared/options';
 import {
   exceptMedicalEmployee,
@@ -28,7 +31,7 @@ export const IndicatorResource = async () => {
           isAccessible: exceptMedicalEmployee,
         },
         delete: {
-          isAccessible: exceptMedicalEmployee,
+          isAccessible: false,
         },
       },
       properties: {

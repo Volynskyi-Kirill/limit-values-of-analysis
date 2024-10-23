@@ -70,7 +70,7 @@ const statusBadgeVariant: Record<
   [CARD_STATUSES.PROCESSING]: 'secondary',
 };
 
-const getStatusInfo = (test: Test) => {
+export const getStatusInfo = (test: Test) => {
   const { resultValue, resultText, status, indicatorRange } = test;
   const { minValue, maxValue, result } = indicatorRange;
 

@@ -31,7 +31,7 @@ export const TestTypeResource = async () => {
           isAccessible: exceptMedicalEmployee,
         },
         delete: {
-          isAccessible: exceptMedicalEmployee,
+          isAccessible: false,
         },
       },
       properties: {
