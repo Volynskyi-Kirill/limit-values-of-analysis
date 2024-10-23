@@ -25,7 +25,7 @@ export class AnalysesController {
     @Param('testTypeId', ParseIntPipe) testTypeId: number,
     @Param('testDate') testDate: string,
   ) {
-    const parsedDate = new Date(testDate); 
+    const parsedDate = new Date(testDate);
     return this.analysesService.findUserAnalysesByTestType(
       userId,
       testTypeId,
