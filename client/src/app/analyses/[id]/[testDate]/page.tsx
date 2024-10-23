@@ -106,13 +106,19 @@ function AnalysisDetailsPage() {
     );
   }
 
+  const handleLinkClick = () => {
+    setTimeout(() => {
+      setIsLoading(true);
+    }, 150);
+  };
+
   return (
     <div className='container mx-auto p-4'>
       <div className='flex justify-between items-center mb-6'>
         <h1 className='text-2xl font-bold'>
           {tests[0].indicatorRange.indicator.testType.name}
         </h1>
-        <Link href='/analyses'>
+        <Link href='/analyses' onClick={handleLinkClick}>
           <Button variant='outline'>Назад до списку аналізів</Button>
         </Link>
       </div>
