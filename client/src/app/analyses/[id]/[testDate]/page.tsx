@@ -37,10 +37,15 @@ type Test = {
 
 async function fetchAnalysisDetails(
   userId: number,
-  testTypeId: number
+  testTypeId: number,
+  testDate: string
 ): Promise<Test[]> {
   const token = localStorage.getItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN);
-  const url = API_ROUTES.ANALYSES.BY_USER_TEST_TYPE(userId, testTypeId);
+  const url = API_ROUTES.ANALYSES.BY_USER_TEST_TYPE(
+    userId,
+    testTypeId,
+    testDate
+  );
 
   const response = await fetch(url, {
     headers: {
@@ -62,13 +67,15 @@ function AnalysisDetailsPage() {
   const [error, setError] = useState<string | null>(null);
   const params = useParams();
   const testTypeId = params.id as string;
+  const testDate = params.testDate as string;
 
   useEffect(() => {
     async function loadAnalysisDetails() {
       try {
         const data = await fetchAnalysisDetails(
           user?.id as number,
-          parseInt(testTypeId)
+          parseInt(testTypeId),
+          testDate
         );
         setTests(data);
       } catch (err) {
@@ -82,7 +89,7 @@ function AnalysisDetailsPage() {
     }
 
     loadAnalysisDetails();
-  }, [testTypeId, user?.id]);
+  }, [testDate, testTypeId, user?.id]);
 
   if (isLoading) {
     return (

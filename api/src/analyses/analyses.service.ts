@@ -69,10 +69,24 @@ export class AnalysesService {
     });
   }
 
-  async findUserAnalysesByTestType(userId: number, testTypeId: number) {
+  async findUserAnalysesByTestType(
+    userId: number,
+    testTypeId: number,
+    testDate: Date,
+  ) {
+    const startDate = new Date(testDate);
+    startDate.setHours(0, 0, 0, 0);
+
+    const endDate = new Date(testDate);
+    endDate.setHours(23, 59, 59, 999);
+
     const analyses = await this.prismaService.test.findMany({
       where: {
         userId,
+        testDate: {
+          gte: startDate,
+          lte: endDate,
+        },
         indicatorRange: {
           indicator: {
             testTypeId,

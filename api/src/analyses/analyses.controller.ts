@@ -19,11 +19,17 @@ export class AnalysesController {
   }
 
   @Public()
-  @Get('/user/:userId/testType/:testTypeId')
+  @Get('/user/:userId/testType/:testTypeId/:testDate')
   findUserAnalysesByTestType(
     @Param('userId', ParseIntPipe) userId: number,
     @Param('testTypeId', ParseIntPipe) testTypeId: number,
+    @Param('testDate') testDate: string,
   ) {
-    return this.analysesService.findUserAnalysesByTestType(userId, testTypeId);
+    const parsedDate = new Date(testDate); 
+    return this.analysesService.findUserAnalysesByTestType(
+      userId,
+      testTypeId,
+      parsedDate,
+    );
   }
 }

@@ -23,15 +23,16 @@ type Analysis = {
 };
 
 export function AnalysisCard({ analysis }: { analysis: Analysis }) {
-  const isCompleted = analysis.tests.every((test) => test.status === TestStatus.DONE);
-  const status = isCompleted ? 'Завершено' : 'Очікування';
-  const latestDate = new Date(
-    Math.max(...analysis.tests.map((t) => new Date(t.testDate).getTime()))
+  const isCompleted = analysis.tests.every(
+    (test) => test.status === TestStatus.DONE
   );
+  const status = isCompleted ? 'Завершено' : 'Очікування';
+  const testDate = new Date(analysis.tests[0].testDate);
+  const formattedTestDate = testDate.toISOString();
 
   return (
     //TODO лоадер! пока жду, открытие, буд-то лагает.
-    <Link href={`/analyses/${analysis.testType.id}`}>
+    <Link href={`/analyses/${analysis.testType.id}/${formattedTestDate}`}>
       <Card
         className={`w-full h-full ${
           isCompleted ? 'bg-green-50' : 'bg-yellow-50'
@@ -53,7 +54,7 @@ export function AnalysisCard({ analysis }: { analysis: Analysis }) {
             Кількість показників: {analysis.tests.length}
           </p>
           <p className='text-sm text-muted-foreground'>
-            Дата здачі останнього показника: {latestDate.toLocaleDateString()}
+            Дата здачі останнього показника: {testDate.toLocaleDateString()}
           </p>
         </CardContent>
       </Card>
