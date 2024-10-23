@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { API_ROUTES } from '@/lib/config/apiRoutes';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { LOCAL_STORAGE_KEYS, TestStatus } from '@/lib/constants';
+import Loading from './loading';
 
 type Test = {
   id: number;
@@ -92,11 +93,7 @@ function AnalysisDetailsPage() {
   }, [testDate, testTypeId, user?.id]);
 
   if (isLoading) {
-    return (
-      <div className='container mx-auto p-4'>
-        Завантаження деталей аналізу...
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {

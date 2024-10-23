@@ -31,7 +31,6 @@ export function AnalysisCard({ analysis }: { analysis: Analysis }) {
   const formattedTestDate = testDate.toISOString();
 
   return (
-    //TODO лоадер! пока жду, открытие, буд-то лагает.
     <Link href={`/analyses/${analysis.testType.id}/${formattedTestDate}`}>
       <Card
         className={`w-full h-full ${
