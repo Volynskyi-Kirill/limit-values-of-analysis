@@ -87,19 +87,14 @@ export const UA_VALIDATION_MESSAGES = {
   role: {
     isEnum: 'Роль повинна бути однією з допустимих значень',
   },
-  firstName: {
-    isNotEmpty: "Поле ім'я є обов’язковим",
-    length: `Поле ім'я повинно містити від ${MIN_NAME_LENGTH} до ${MAX_NAME_LENGTH} символів`,
-  },
-  lastName: {
-    isNotEmpty: 'Поле прізвище є обов’язковим',
-    length: `Поле прізвище повинно містити від ${MIN_NAME_LENGTH} до ${MAX_NAME_LENGTH} символів`,
-  },
-  patronymic: {
-    isNotEmpty: 'Поле по батькові є обов’язковим',
-    length: `Поле по батькові повинно містити від ${MIN_NAME_LENGTH} до ${MAX_NAME_LENGTH} символів`,
-  },
   gender: {
     isEnum: 'Стать повинна бути або "чоловік" або "жінка"',
   },
+  generateRequiredMessage(fieldName: string) {
+    return `Поле ${fieldName} є обов’язковим`;
+  },
+  generateLengthMessage(fieldName: string, min: number, max: number) {
+    return `Поле ${fieldName} повинно містити від ${min} до ${max} символів`;
+  },
+  isString: (fieldName: string) => `Поле ${fieldName} повинно бути строкою`,
 };

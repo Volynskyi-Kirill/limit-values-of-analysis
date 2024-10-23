@@ -40,3 +40,12 @@ export const handleAfterNewUser = async (
 
   return originalResponse;
 };
+
+export const handleBeforeEditUser = async (request: any) => {
+  if (request.method === 'post') {
+    const email = request.payload.email;
+    await validateUserDto(request.payload);
+    await validateUniqueEmail(email);
+  }
+  return request;
+};

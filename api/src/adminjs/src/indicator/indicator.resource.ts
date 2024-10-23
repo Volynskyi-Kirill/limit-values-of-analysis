@@ -24,7 +24,7 @@ export const IndicatorResource = async () => {
           isAccessible: exceptMedicalEmployee,
         },
         edit: {
-          before: handleUpdatedAt,
+          before: [handleUpdatedAt, handleBeforeEditTestType],
           isAccessible: exceptMedicalEmployee,
         },
         delete: {

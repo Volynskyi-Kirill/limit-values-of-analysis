@@ -1,6 +1,9 @@
 import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 import { loadComponents } from '../../components/components';
-import { handleBeforeNewTestType } from './test-type.handler';
+import {
+  handleBeforeEditTestType,
+  handleBeforeNewTestType,
+} from './test-type.handler';
 import { DEFAULT_CREATED_BY_OPTION } from 'src/adminjs/shared/options';
 import {
   exceptMedicalEmployee,
@@ -24,7 +27,7 @@ export const TestTypeResource = async () => {
           isAccessible: exceptMedicalEmployee,
         },
         edit: {
-          before: handleUpdatedAt,
+          before: [handleUpdatedAt, handleBeforeEditTestType],
           isAccessible: exceptMedicalEmployee,
         },
         delete: {
@@ -34,7 +37,7 @@ export const TestTypeResource = async () => {
       properties: {
         createdBy: DEFAULT_CREATED_BY_OPTION,
         id: {
-          isVisible: false, 
+          isVisible: false,
         },
       },
     },

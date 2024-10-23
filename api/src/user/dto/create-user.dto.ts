@@ -1,36 +1,23 @@
 import { Gender } from '@prisma/client';
-import {
-  IsString,
-  IsEmail,
-  IsEnum,
-  Length,
-} from 'class-validator';
-import {
-  MAX_NAME_LENGTH,
-  MIN_NAME_LENGTH,
-  UA_VALIDATION_MESSAGES,
-} from 'src/adminjs/translations/translations.ua';
+import { IsEmail, IsEnum, IsNotEmpty } from 'class-validator';
+import { UA_VALIDATION_MESSAGES } from 'src/adminjs/translations/translations.ua';
+import { BaseStringValidation } from 'src/shared/dto-validation';
 
 export class CreateUserDto {
-  @IsString({ message: UA_VALIDATION_MESSAGES.firstName.isNotEmpty })
-  @Length(MIN_NAME_LENGTH, MAX_NAME_LENGTH, {
-    message: UA_VALIDATION_MESSAGES.firstName.length,
-  })
+  @BaseStringValidation("ім'я")
   firstName: string;
 
-  @IsString({ message: UA_VALIDATION_MESSAGES.lastName.isNotEmpty })
-  @Length(MIN_NAME_LENGTH, MAX_NAME_LENGTH, {
-    message: UA_VALIDATION_MESSAGES.lastName.length,
-  })
+  @BaseStringValidation('прізвище')
   lastName: string;
 
-  @IsString({ message: UA_VALIDATION_MESSAGES.patronymic.isNotEmpty })
-  @Length(MIN_NAME_LENGTH, MAX_NAME_LENGTH, {
-    message: UA_VALIDATION_MESSAGES.patronymic.length,
-  })
+  @BaseStringValidation('по батькові')
   patronymic: string;
 
+  @BaseStringValidation('документ')
+  document: string;
+
   @IsEmail({}, { message: UA_VALIDATION_MESSAGES.email.isEmail })
+  @IsNotEmpty({ message: UA_VALIDATION_MESSAGES.email.isNotEmpty })
   email: string;
 
   @IsEnum(Gender, { message: UA_VALIDATION_MESSAGES.gender.isEnum })

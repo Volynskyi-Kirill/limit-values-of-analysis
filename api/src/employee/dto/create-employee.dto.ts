@@ -1,6 +1,7 @@
 import { Role } from '@prisma/client';
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 import { UA_VALIDATION_MESSAGES } from 'src/adminjs/translations/translations.ua';
+import { BaseStringValidation } from 'src/shared/dto-validation';
 
 export class CreateEmployeeDto {
   @IsEmail({}, { message: UA_VALIDATION_MESSAGES.email.isEmail })
@@ -14,10 +15,10 @@ export class CreateEmployeeDto {
   @IsOptional()
   role?: Role;
 
-  @IsNotEmpty({ message: UA_VALIDATION_MESSAGES.firstName.isNotEmpty })
+  @BaseStringValidation("ім'я")
   firstName: string;
 
-  @IsNotEmpty({ message: UA_VALIDATION_MESSAGES.lastName.isNotEmpty })
+  @BaseStringValidation('прізвище')
   lastName: string;
 
   @IsOptional()
