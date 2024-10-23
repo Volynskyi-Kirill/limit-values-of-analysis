@@ -30,6 +30,7 @@ export function AnalysisCard({ analysis }: { analysis: Analysis }) {
   );
 
   return (
+    //TODO лоадер! пока жду, открытие, буд-то лагает.
     <Link href={`/analyses/${analysis.testType.id}`}>
       <Card
         className={`w-full h-full ${

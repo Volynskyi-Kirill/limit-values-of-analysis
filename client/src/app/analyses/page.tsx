@@ -7,7 +7,7 @@ import { AnalysisCard } from '@/components/AnalysisCard';
 import { API_ROUTES } from '@/lib/config/apiRoutes';
 import { LOCAL_STORAGE_KEYS } from '@/lib/constants';
 
-type AnalysesData = {
+export type AnalysesData = {
   [key: string]: {
     testType: {
       id: number;
