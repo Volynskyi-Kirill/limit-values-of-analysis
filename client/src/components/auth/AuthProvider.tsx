@@ -1,10 +1,11 @@
-// src/components/auth/AuthProvider.tsx
 'use client';
 
-import { Gender } from '@/lib/constants';
+import { Gender, LOCAL_STORAGE_KEYS } from '@/lib/constants';
 import { createContext, useContext, useState, useEffect } from 'react';
 
 export type User = {
+  id: number;
+  document: string;
   firstName: string;
   lastName: string;
   patronymic: string;
@@ -33,10 +34,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const checkAuth = () => {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN);
+      const storedUser = localStorage.getItem(LOCAL_STORAGE_KEYS.USER);
+
       if (token) {
         setIsAuthenticated(true);
       }
+
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+
       setIsLoading(false);
     };
 
@@ -44,19 +52,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = (token: string) => {
-    localStorage.setItem('authToken', token);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN, token);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.USER);
     setIsAuthenticated(false);
     setUser(null);
   };
 
+  const handleSetUser = (user: User) => {
+    setUser(user);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.USER, JSON.stringify(user));
+  };
+
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, isLoading, user, login, logout, setUser }}
+      value={{
+        isAuthenticated,
+        isLoading,
+        user,
+        login,
+        logout,
+        setUser: handleSetUser,
+      }}
     >
       {children}
     </AuthContext.Provider>

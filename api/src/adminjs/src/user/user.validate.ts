@@ -1,5 +1,7 @@
+import { validateDto } from 'src/adminjs/shared/validate.dto';
 import { UA_VALIDATION_MESSAGES } from 'src/adminjs/translations/translations.ua';
 import { prismaAdminJSClient } from 'src/modules/adminjs.module';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
 export const validateUniqueEmail = async (email: string) => {
   const existingUser = await prismaAdminJSClient.user.findUnique({
@@ -14,4 +16,8 @@ export const validateUniqueEmail = async (email: string) => {
       },
     });
   }
+};
+
+export const validateUserDto = async (payload: any) => {
+  await validateDto(CreateUserDto, payload);
 };

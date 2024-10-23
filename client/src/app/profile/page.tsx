@@ -5,7 +5,7 @@ import { useAuth } from '@/components/auth/AuthProvider';
 import { fetchUserProfile } from '@/lib/api';
 import { withAuth } from '@/lib/auth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CalendarIcon, MailIcon, UserIcon } from 'lucide-react';
+import { CalendarIcon, FileTextIcon, MailIcon, UserIcon } from 'lucide-react';
 import { Gender } from '@/lib/constants';
 
 function ProfilePage() {
@@ -48,7 +48,7 @@ function ProfilePage() {
             <div className='flex items-center space-x-2'>
               <UserIcon className='text-muted-foreground' />
               <span>
-                Стать: {user.gender === Gender.male ? 'Мужской' : 'Женский'}
+                Стать: {user.gender === Gender.male ? 'Чоловіча' : 'Жіноча'}
               </span>
             </div>
             <div className='flex items-center space-x-2'>
@@ -60,6 +60,10 @@ function ProfilePage() {
             <div className='flex items-center space-x-2'>
               <MailIcon className='text-muted-foreground' />
               <span>Email: {user.email}</span>
+            </div>
+            <div className='flex items-center space-x-2'>
+              <FileTextIcon className='text-muted-foreground' />
+              <span>Документ: {user.document}</span>
             </div>
             <div className='text-sm text-muted-foreground'>
               <p>

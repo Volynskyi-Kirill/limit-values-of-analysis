@@ -1,6 +1,6 @@
 import { prismaAdminJSClient } from 'src/modules/adminjs.module';
 import { loadComponents } from '../../components/components';
-import { handleAfterNewUser, handleBeforeNewUser } from './user.handler';
+import { handleAfterNewUser, handleBeforeEditUser, handleBeforeNewUser } from './user.handler';
 import { DEFAULT_CREATED_BY_OPTION } from 'src/adminjs/shared/options';
 import { handleUpdatedAt } from 'src/adminjs/shared/handlers';
 import { AuthService } from 'src/auth/auth.service';
@@ -32,11 +32,21 @@ export const UserResource = async (
             }),
         },
         edit: {
-          before: handleUpdatedAt,
+          before: [handleUpdatedAt, handleBeforeEditUser],
         },
       },
       properties: {
         createdBy: DEFAULT_CREATED_BY_OPTION,
+        id: {
+          isVisible: false,
+        },
+        birthDate: {
+          type: 'date',
+          // type: 'string',
+          // props: {
+          //   type: 'date', // Use HTML date input
+          // },
+        },
       },
     },
   };

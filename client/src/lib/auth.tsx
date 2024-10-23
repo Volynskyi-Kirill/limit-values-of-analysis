@@ -1,6 +1,7 @@
 'use client';
 
 import { useAuth } from '@/components/auth/AuthProvider';
+import { Loader } from '@/components/ui/loader';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -16,7 +17,7 @@ export function withAuth(Component: React.ComponentType) {
     }, [isAuthenticated, isLoading, router]);
 
     if (isLoading) {
-      return <div>Загрузка...</div>; // или любой другой компонент загрузки
+      return <Loader />
     }
 
     if (!isAuthenticated) {

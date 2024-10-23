@@ -16,6 +16,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { MailService } from 'src/mail/mail.service';
 import { AuthModule } from 'src/auth/auth.module';
 import { MailModule } from 'src/mail/mail.module';
+import { dashboardHandler } from 'src/adminjs/lib/dashboardHandler';
 
 type AdminModuleType = {
   createAdminAsync: (options: any) => any;
@@ -32,7 +33,7 @@ export const prismaAdminJSClient = new PrismaService();
       const { AdminModule }: { AdminModule: AdminModuleType } = await import(
         '@adminjs/nestjs'
       );
-      const { componentLoader } = await loadComponents();
+      const { Components, componentLoader } = await loadComponents();
       AdminJS.registerAdapter({ Database, Resource });
 
       const employeeResource = await EmployeeResource();
@@ -67,6 +68,10 @@ export const prismaAdminJSClient = new PrismaService();
               testResource,
               await UserResource(authService, mailService),
             ],
+            dashboard: {
+              component: Components.Dashboard,
+              handler: dashboardHandler,
+            },
             componentLoader,
             locale: {
               language: 'ua',

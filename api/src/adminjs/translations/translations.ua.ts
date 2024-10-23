@@ -39,6 +39,7 @@ export const TRANSLATION_UA = {
     birthDate: 'Дата народження',
     gender: 'Стать',
     tests: 'Тести користувача',
+    document: 'Документ',
 
     // Поля TestType
     name: 'Назва',
@@ -51,20 +52,28 @@ export const TRANSLATION_UA = {
     indicators: 'Індикатори',
 
     // Поля IndicatorRange
-    minValue: 'Мінімальне значення допустимого діапазону',
-    maxValue: 'Максимальне значення допустимого діапазону',
+    minValue: 'Мін. значення',
+    maxValue: 'Макс. значення',
+    // minValue: 'Мінімальне значення допустимого діапазону',
+    // maxValue: 'Максимальне значення допустимого діапазону',
     minAge: 'Мінімальний вік',
     maxAge: 'Максимальний вік',
     indicatorRange: 'Діапазон значень',
+    result: 'Інше (Допустимий результат)',
 
     // Поля Test
     userId: 'ID користувача',
     indicatorRangeId: 'ID діапазону індикатора',
     resultValue: 'Результат',
+    resultText: 'Результат (текстом)',
     status: 'Статус',
     testDate: 'Дата тесту',
+    user: 'Користувач',
   },
 };
+
+export const MIN_NAME_LENGTH = 1;
+export const MAX_NAME_LENGTH = 50;
 
 export const UA_VALIDATION_MESSAGES = {
   email: {
@@ -78,10 +87,14 @@ export const UA_VALIDATION_MESSAGES = {
   role: {
     isEnum: 'Роль повинна бути однією з допустимих значень',
   },
-  firstName: {
-    isNotEmpty: "Поле ім'я є обов’язковим",
+  gender: {
+    isEnum: 'Стать повинна бути або "чоловік" або "жінка"',
   },
-  lastName: {
-    isNotEmpty: 'Поле прізвище є обов’язковим',
+  generateRequiredMessage(fieldName: string) {
+    return `Поле ${fieldName} є обов’язковим`;
   },
+  generateLengthMessage(fieldName: string, min: number, max: number) {
+    return `Поле ${fieldName} повинно містити від ${min} до ${max} символів`;
+  },
+  isString: (fieldName: string) => `Поле ${fieldName} повинно бути строкою`,
 };

@@ -16,6 +16,9 @@ export const handleBeforeNewEmployee = async (request: any) => {
 };
 
 export const handleBeforeEditEmployee = async (request: any) => {
+  if (request.method === 'post') {
+    await validateEmployeeDto(request.payload);
+  }
   return handleUpdatedAt(request);
 };
 

@@ -14,14 +14,14 @@ export function NavigationMenu() {
   return (
     <nav className='bg-primary text-primary-foreground p-4'>
       <div className='container mx-auto flex justify-between items-center'>
-        <Link href='/dashboard' className='text-lg font-bold'>
+        <Link href='/profile' className='text-lg font-bold'>
           Мій додаток
         </Link>
         <div className='space-x-4'>
           <Link href='/profile' className='hover:underline'>
             Профіль
           </Link>
-          <Link href='/tests' className='hover:underline'>
+          <Link href='/analyses' className='hover:underline'>
             Аналізи
           </Link>
           <Button variant='secondary' onClick={logout}>

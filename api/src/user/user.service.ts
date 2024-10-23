@@ -12,4 +12,34 @@ export class UserService {
       },
     });
   }
+
+  findAnalyses(userId: number) {
+    return this.prismaService.test.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        indicatorRange: {
+          select: {
+            gender: true,
+            minValue: true,
+            maxValue: true,
+            indicator: {
+              select: {
+                name: true,
+                unit: true,
+                description: true,
+                testType: {
+                  select: {
+                    name: true,
+                    description: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+  }
 }

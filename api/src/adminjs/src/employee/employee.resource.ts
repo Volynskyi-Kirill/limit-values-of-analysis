@@ -3,7 +3,6 @@ import {
   handleAfterListEmployees,
   handleBeforeEditEmployee,
   handleBeforeNewEmployee,
-  handleDeleteAccessEmployee,
   handleEditAccessEmployee,
 } from './employee.handler';
 import { loadComponents } from '../../components/components';
@@ -33,13 +32,16 @@ export const EmployeeResource = async () => {
           isAccessible: handleEditAccessEmployee,
         },
         delete: {
-          isAccessible: handleDeleteAccessEmployee,
+          isAccessible: false,
         },
         list: {
           after: handleAfterListEmployees,
         },
       },
       properties: {
+        id: {
+          isVisible: false,
+        },
         createdBy: DEFAULT_CREATED_BY_OPTION,
         lastName: {
           isTitle: true,

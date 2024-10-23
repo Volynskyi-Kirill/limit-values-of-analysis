@@ -19,9 +19,8 @@ enum Role {
 }
 
 enum TestStatus {
-  AWAITING_SUBMISSION @map("awaiting_submission")
-  IN_PROGRESS         @map("in_progress")
-  DONE                @map("done")
+  IN_PROGRESS @map("in_progress")
+  DONE        @map("done")
 }
 
 model Employee {
@@ -47,6 +46,7 @@ model Employee {
 
 model User {
   id         Int      @id @default(autoincrement()) @map("id")
+  document   String   @default("Невідомо") @map("document")
   firstName  String   @map("first_name")
   lastName   String   @map("last_name")
   patronymic String   @map("patronymic")
@@ -97,10 +97,9 @@ model IndicatorRange {
   indicatorId Int       @map("indicator_id")
   indicator   Indicator @relation(fields: [indicatorId], references: [id])
   gender      Gender    @map("gender")
-  // minAge      Int       @map("min_age")
-  // maxAge      Int       @map("max_age")
-  minValue    Float     @map("min_value")
-  maxValue    Float     @map("max_value")
+  minValue    Float?    @map("min_value")
+  maxValue    Float?    @map("max_value")
+  result      String?   @map("result")
   createdBy   Employee? @relation(fields: [createdById], references: [id])
   createdById Int?      @map("created_by_id")
   tests       Test[]
@@ -117,7 +116,8 @@ model Test {
   indicatorRangeId Int            @map("indicator_range_id")
   indicatorRange   IndicatorRange @relation(fields: [indicatorRangeId], references: [id])
   resultValue      Float?         @map("result_value")
-  status           TestStatus     @default(AWAITING_SUBMISSION) @map("status")
+  resultText       String?        @map("result_text")
+  status           TestStatus     @default(IN_PROGRESS) @map("status")
   testDate         DateTime       @map("test_date")
   createdAt        DateTime       @default(now()) @map("created_at")
   updatedAt        DateTime       @updatedAt @map("updated_at")
