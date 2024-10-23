@@ -36,7 +36,9 @@ export function AnalysisCard({ analysis }: { analysis: Analysis }) {
   const formattedTestDate = testDate.toISOString();
 
   const handleLinkClick = () => {
-    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(true);
+    }, 150);
   };
 
   return (
