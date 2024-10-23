@@ -10,8 +10,9 @@ import { API_ROUTES } from '@/lib/config/apiRoutes';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { LOCAL_STORAGE_KEYS, TestStatus } from '@/lib/constants';
 import Loading from './loading';
+import { AnalysisDetailsPDFGenerator } from '@/components/AnalysisDetailsPDFGenerator';
 
-type Test = {
+export type Test = {
   id: number;
   resultValue: number | null;
   resultText: string | null;
@@ -92,6 +93,12 @@ function AnalysisDetailsPage() {
     loadAnalysisDetails();
   }, [testDate, testTypeId, user?.id]);
 
+  const handleLinkClick = () => {
+    setTimeout(() => {
+      setIsLoading(true);
+    }, 150);
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -106,21 +113,18 @@ function AnalysisDetailsPage() {
     );
   }
 
-  const handleLinkClick = () => {
-    setTimeout(() => {
-      setIsLoading(true);
-    }, 150);
-  };
-
   return (
     <div className='container mx-auto p-4'>
       <div className='flex justify-between items-center mb-6'>
         <h1 className='text-2xl font-bold'>
           {tests[0].indicatorRange.indicator.testType.name}
         </h1>
-        <Link href='/analyses' onClick={handleLinkClick}>
-          <Button variant='outline'>Назад до списку аналізів</Button>
-        </Link>
+        <div className='space-x-4'>
+          <AnalysisDetailsPDFGenerator tests={tests} testDate={testDate} />
+          <Link href='/analyses' onClick={handleLinkClick}>
+            <Button variant='outline'>Назад до списку аналізів</Button>
+          </Link>
+        </div>
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {tests.map((test) => (
