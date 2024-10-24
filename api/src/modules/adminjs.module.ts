@@ -28,7 +28,6 @@ export const prismaAdminJSClient = new PrismaService();
   imports: [
     (async () => {
       const AdminJS = (await import('adminjs')).default;
-      const { locales } = await import('adminjs');
       const { Database, Resource } = await import('@adminjs/prisma');
       const { AdminModule }: { AdminModule: AdminModuleType } = await import(
         '@adminjs/nestjs'
@@ -41,15 +40,27 @@ export const prismaAdminJSClient = new PrismaService();
       const indicatorResource = await IndicatorResource();
       const indicatorRangeResource = await IndicatorRangeResource();
       const testResource = await TestResource();
-      // const userResource = await UserResource();
 
-      const redisClient = createClient({
-        url: 'redis://localhost:6379',
-      });
-      redisClient.on('error', (err) => console.log('Redis Client Error', err));
+      const sessionOptions: any = {
+        resave: true,
+        saveUninitialized: true,
+        secret: 'secret',
+        cookie: {
+          maxAge: 24 * 60 * 60 * 1000,
+        },
+      };
 
-      await redisClient.connect();
-      const redisStore = new RedisStore({ client: redisClient });
+      if (process.env.NODE_ENV === 'development') {
+        const redisClient = createClient({
+          url: 'redis://localhost:6379',
+        });
+        redisClient.on('error', (err) =>
+          console.log('Redis Client Error', err),
+        );
+        await redisClient.connect();
+        const redisStore = new RedisStore({ client: redisClient });
+        sessionOptions.store = redisStore;
+      }
 
       return AdminModule.createAdminAsync({
         imports: [EmployeeModule, AuthModule, MailModule],
@@ -87,15 +98,7 @@ export const prismaAdminJSClient = new PrismaService();
             cookieName: 'adminjs',
             cookiePassword: 'secret',
           },
-          sessionOptions: {
-            store: redisStore,
-            resave: true,
-            saveUninitialized: true,
-            secret: 'secret',
-            cookie: {
-              maxAge: 24 * 60 * 60 * 1000, // 24 часа
-            },
-          },
+          sessionOptions,
         }),
         inject: [EmployeeService, AuthService, MailService],
       });
