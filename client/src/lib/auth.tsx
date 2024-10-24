@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export function withAuth(Component: React.ComponentType) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return function ProtectedRoute(props: any) {
     const { isAuthenticated, isLoading } = useAuth();
     const router = useRouter();

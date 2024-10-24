@@ -61,7 +61,7 @@ function AnalysesPage() {
     }
 
     loadAnalyses();
-  }, []);
+  }, [user?.id]);
 
   if (isLoading) {
     return (
