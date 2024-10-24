@@ -1,0 +1,41 @@
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { Public } from './decorators/public.decorator';
+import { CreateAuthDto } from './dto/create-auth.dto';
+import { MailService } from 'src/mail/mail.service';
+import { ConfirmAuthDto } from './dto/confirm-auth.dto';
+import { UserService } from 'src/user/user.service';
+import { LOGIN_SUBJECT } from 'src/shared/constants';
+
+@Controller('auth')
+export class AuthController {
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+    private readonly mailService: MailService,
+  ) {}
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Post('/link')
+  async createLink(@Body() createAuthDto: CreateAuthDto) {
+    const { email } = createAuthDto;
+    const user = await this.userService.findByEmail(email);
+
+    if (!user) return;
+
+    const token = await this.authService.generateToken(email);
+    const html = await this.authService.createLink(token);
+    this.mailService.sendMessage({ email, html, subject: LOGIN_SUBJECT });
+  }
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Post('/confirm')
+  async confirmAuth(@Body() confirmAuthDto: ConfirmAuthDto) {
+    const { token } = confirmAuthDto;
+
+    const payload = await this.authService.verifyToken(token);
+    return { message: 'Авторизация успешна', payload };
+  }
+}

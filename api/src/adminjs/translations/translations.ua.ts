@@ -1,0 +1,100 @@
+export const TRANSLATION_UA = {
+  labels: {
+    Employee: 'Працівники',
+    TestType: 'Типи тестів',
+    Indicator: 'Індикатори',
+    IndicatorRange: 'Діапазон значень',
+    Test: 'Тести',
+    User: 'Користувачі',
+    role: {
+      ADMIN: 'Адміністратор',
+      SUPER_ADMIN: 'Супер Адміністратор',
+      MED_WORKER: 'Медичний працівник',
+    },
+    gender: {
+      male: 'Чоловік',
+      female: 'Жінка',
+    },
+    status: {
+      AWAITING_SUBMISSION: 'Очікування здачі',
+      IN_PROGRESS: 'Очікування результатів',
+      DONE: 'Завершено',
+    },
+  },
+  properties: {
+    // Общие поля
+    createdBy: 'Створено користувачем',
+    createdAt: 'Створено',
+    updatedAt: 'Оновлено',
+    role: 'Роль',
+
+    // Поля Employee
+    firstName: 'Ім’я',
+    lastName: 'Прізвище',
+    email: 'Електронна пошта',
+    password: 'Пароль',
+
+    // Поля User
+    patronymic: 'По батькові',
+    birthDate: 'Дата народження',
+    gender: 'Стать',
+    tests: 'Тести користувача',
+    document: 'Документ',
+
+    // Поля TestType
+    name: 'Назва',
+    description: 'Опис',
+    testType: 'Тип тесту',
+
+    // Поля Indicator
+    unit: 'Одиниця виміру',
+    indicator: 'Індикатор',
+    indicators: 'Індикатори',
+
+    // Поля IndicatorRange
+    minValue: 'Мін. значення',
+    maxValue: 'Макс. значення',
+    // minValue: 'Мінімальне значення допустимого діапазону',
+    // maxValue: 'Максимальне значення допустимого діапазону',
+    minAge: 'Мінімальний вік',
+    maxAge: 'Максимальний вік',
+    indicatorRange: 'Діапазон значень',
+    result: 'Інше (Допустимий результат)',
+
+    // Поля Test
+    userId: 'ID користувача',
+    indicatorRangeId: 'ID діапазону індикатора',
+    resultValue: 'Результат',
+    resultText: 'Результат (текстом)',
+    status: 'Статус',
+    testDate: 'Дата тесту',
+    user: 'Користувач',
+  },
+};
+
+export const MIN_NAME_LENGTH = 1;
+export const MAX_NAME_LENGTH = 50;
+
+export const UA_VALIDATION_MESSAGES = {
+  email: {
+    isEmail: 'Поле електронної пошти має бути валідним',
+    isNotEmpty: 'Поле електронної пошти є обов’язковим',
+    isUnique: 'Користувач з такою поштою вже існує!',
+  },
+  password: {
+    isNotEmpty: 'Поле паролю є обов’язковим',
+  },
+  role: {
+    isEnum: 'Роль повинна бути однією з допустимих значень',
+  },
+  gender: {
+    isEnum: 'Стать повинна бути або "чоловік" або "жінка"',
+  },
+  generateRequiredMessage(fieldName: string) {
+    return `Поле ${fieldName} є обов’язковим`;
+  },
+  generateLengthMessage(fieldName: string, min: number, max: number) {
+    return `Поле ${fieldName} повинно містити від ${min} до ${max} символів`;
+  },
+  isString: (fieldName: string) => `Поле ${fieldName} повинно бути строкою`,
+};
