@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import {
   Card,
   CardContent,
@@ -15,12 +15,13 @@ import { useAuth } from '@/components/auth/AuthProvider';
 export default function ConfirmAuthPage() {
   const [message, setMessage] = useState('Підтвердження авторизації...');
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams.get('token');
   const { login } = useAuth();
 
   useEffect(() => {
     const confirmAuth = async () => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const token = searchParams.get('token');
+
       if (!token) {
         setMessage('Немає токен авторизації');
         return;
@@ -47,7 +48,7 @@ export default function ConfirmAuthPage() {
     };
 
     confirmAuth();
-  }, [token, router, login]);
+  }, [router, login]);
 
   return (
     <div className='flex min-h-screen items-center justify-center'>

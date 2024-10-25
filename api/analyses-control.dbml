@@ -1,0 +1,117 @@
+Enum "Gender" {
+  "male"
+  "female"
+}
+
+Enum "Role" {
+  "super_admin"
+  "admin"
+  "med_worker"
+}
+
+Enum "TestStatus" {
+  "in_progress"
+  "done"
+}
+
+Table "_prisma_migrations" {
+  "id" varchar(36) [pk, not null]
+  "checksum" varchar(64) [not null]
+  "finished_at" timestamptz
+  "migration_name" varchar(255) [not null]
+  "logs" text
+  "rolled_back_at" timestamptz
+  "started_at" timestamptz [not null, default: `now()`]
+  "applied_steps_count" int4 [not null, default: 0]
+}
+
+Table "employee" {
+  "id" int4 [pk, not null, increment]
+  "email" text [unique, not null]
+  "password" text [not null]
+  "created_at" timestamp [not null, default: `CURRENT_TIMESTAMP`]
+  "created_by_id" int4
+  "updated_at" timestamp [not null]
+  "role" Role [not null, default: 'med_worker']
+  "first_name" text [not null, default: 'Невідомо']
+  "last_name" text [not null, default: 'Невідомо']
+}
+
+Table "indicator" {
+  "id" int4 [pk, not null, increment]
+  "name" text [not null]
+  "unit" text [not null]
+  "description" text
+  "created_by_id" int4
+  "test_type_id" int4 [not null]
+  "created_at" timestamp [not null, default: `CURRENT_TIMESTAMP`]
+  "updated_at" timestamp [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table "indicator_range" {
+  "id" int4 [pk, not null, increment]
+  "gender" Gender [not null]
+  "created_by_id" int4
+  "indicator_id" int4 [not null]
+  "max_value" float8
+  "min_value" float8
+  "created_at" timestamp [not null, default: `CURRENT_TIMESTAMP`]
+  "updated_at" timestamp [not null, default: `CURRENT_TIMESTAMP`]
+  "result" text
+}
+
+Table "test" {
+  "id" int4 [pk, not null, increment]
+  "created_at" timestamp [not null, default: `CURRENT_TIMESTAMP`]
+  "created_by_id" int4
+  "indicator_range_id" int4 [not null]
+  "result_value" float8
+  "test_date" timestamp [not null]
+  "updated_at" timestamp [not null]
+  "user_id" int4 [not null]
+  "status" TestStatus [not null, default: 'in_progress']
+  "result_text" text
+}
+
+Table "test_type" {
+  "id" int4 [pk, not null, increment]
+  "name" text [unique, not null]
+  "description" text
+  "created_by_id" int4
+  "created_at" timestamp [not null, default: `CURRENT_TIMESTAMP`]
+  "updated_at" timestamp [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table "user" {
+  "id" int4 [pk, not null, increment]
+  "patronymic" text [not null]
+  "email" text [unique, not null]
+  "gender" Gender [not null]
+  "birth_date" timestamp [not null]
+  "created_at" timestamp [not null, default: `CURRENT_TIMESTAMP`]
+  "first_name" text [not null]
+  "last_name" text [not null]
+  "updated_at" timestamp [not null]
+  "created_by_id" int4
+  "document" text [not null, default: 'Невідомо']
+}
+
+Ref "employee_created_by_id_fkey":"employee"."id" < "employee"."created_by_id" [update: cascade, delete: set null]
+
+Ref "indicator_created_by_id_fkey":"employee"."id" < "indicator"."created_by_id" [update: cascade, delete: set null]
+
+Ref "indicator_test_type_id_fkey":"test_type"."id" < "indicator"."test_type_id" [update: cascade, delete: restrict]
+
+Ref "indicator_range_created_by_id_fkey":"employee"."id" < "indicator_range"."created_by_id" [update: cascade, delete: set null]
+
+Ref "indicator_range_indicator_id_fkey":"indicator"."id" < "indicator_range"."indicator_id" [update: cascade, delete: restrict]
+
+Ref "test_created_by_id_fkey":"employee"."id" < "test"."created_by_id" [update: cascade, delete: set null]
+
+Ref "test_indicator_range_id_fkey":"indicator_range"."id" < "test"."indicator_range_id" [update: cascade, delete: restrict]
+
+Ref "test_user_id_fkey":"user"."id" < "test"."user_id" [update: cascade, delete: restrict]
+
+Ref "test_type_created_by_id_fkey":"employee"."id" < "test_type"."created_by_id" [update: cascade, delete: set null]
+
+Ref "user_created_by_id_fkey":"employee"."id" < "user"."created_by_id" [update: cascade, delete: set null]
