@@ -36,6 +36,6 @@ export class AuthController {
     const { token } = confirmAuthDto;
 
     const payload = await this.authService.verifyToken(token);
-    return { message: 'Авторизация успешна', payload };
+    return { message: 'Авторизація успішна', payload };
   }
 }

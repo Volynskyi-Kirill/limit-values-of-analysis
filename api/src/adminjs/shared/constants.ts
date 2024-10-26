@@ -9,7 +9,7 @@ const roleLabels = {
 const roleAccess = {
   [Role.SUPER_ADMIN]: {
     label: roleLabels[Role.SUPER_ADMIN],
-    accessibleBy: ['owner'],
+    accessibleBy: [''],
   },
   [Role.ADMIN]: { label: roleLabels[Role.ADMIN], accessibleBy: ['owner'] },
   [Role.MED_WORKER]: {
