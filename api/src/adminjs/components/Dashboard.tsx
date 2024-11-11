@@ -2,14 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { ApiClient } from 'adminjs';
-import {
-  Box,
-  H2,
-  Button,
-  Text,
-  Label,
-  DatePicker,
-} from '@adminjs/design-system';
+import { Box, H2, Button, Text, Label } from '@adminjs/design-system';
 
 const api = new ApiClient();
 
@@ -18,13 +11,14 @@ const Dashboard: React.FC = () => {
   const [fromDate, setFromDate] = useState<string | null>(null);
   const [toDate, setToDate] = useState<string | null>(null);
 
-  const fetchData = async () => {
+  const fetchData = async (reset?: boolean) => {
+    const params = {
+      fromDate: reset ? undefined : fromDate || undefined,
+      toDate: reset ? undefined : toDate || undefined,
+    };
     try {
       const response: any = await api.getDashboard({
-        params: {
-          fromDate: fromDate || undefined,
-          toDate: toDate || undefined,
-        },
+        params,
       });
       setTestCount(response.data.testCount);
     } catch (error) {
@@ -40,14 +34,14 @@ const Dashboard: React.FC = () => {
     fetchData();
   };
 
-  const handleResetFilters = () => {
+  const handleResetFilters = async () => {
     setFromDate(null);
     setToDate(null);
-    fetchData();
+    await fetchData(true);
   };
 
   const title =
-    fromDate || toDate
+    fromDate && toDate
       ? 'Кількість проведених тестів за обраний період:'
       : 'Кількість проведених тестів за весь час:';
 
@@ -100,20 +94,30 @@ const Dashboard: React.FC = () => {
         >
           <Box display="flex" flexDirection="column" width="45%">
             <Label color="#555">Початкова дата</Label>
-            <DatePicker
-              value={fromDate ?? undefined}
-              onChange={(date) =>
-                setFromDate(date ? date.toString().split('T')[0] : null)
-              }
+            <input
+              type="date"
+              value={fromDate ?? ''}
+              onChange={(e) => setFromDate(e.target.value || null)}
+              style={{
+                padding: '8px',
+                fontSize: '16px',
+                borderRadius: '4px',
+                border: '1px solid #ccc',
+              }}
             />
           </Box>
           <Box display="flex" flexDirection="column" width="45%">
             <Label color="#555">Кінцева дата</Label>
-            <DatePicker
-              value={toDate ?? undefined}
-              onChange={(date) =>
-                setToDate(date ? date.toString().split('T')[0] : null)
-              }
+            <input
+              type="date"
+              value={toDate ?? ''}
+              onChange={(e) => setToDate(e.target.value || null)}
+              style={{
+                padding: '8px',
+                fontSize: '16px',
+                borderRadius: '4px',
+                border: '1px solid #ccc',
+              }}
             />
           </Box>
         </Box>
