@@ -120,7 +120,11 @@ function AnalysisDetailsPage() {
           {tests[0].indicatorRange.indicator.testType.name}
         </h1>
         <div className='space-x-4'>
-          <AnalysisDetailsPDFGenerator tests={tests} testDate={testDate} />
+          <AnalysisDetailsPDFGenerator
+            tests={tests}
+            testDate={testDate}
+            user={user}
+          />
           <Link href='/analyses' onClick={handleLinkClick}>
             <Button variant='outline'>Назад до списку аналізів</Button>
           </Link>

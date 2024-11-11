@@ -3,19 +3,22 @@ import jsPDF from 'jspdf';
 import '@/app/fonts/Roboto-Regular-normal';
 import { Button } from './ui/button';
 import { getStatusInfo } from './TestCard';
+import { User } from './auth/AuthProvider';
 
 type PDFGeneratorProps = {
   tests: Test[] | null;
   testDate: string;
+  user: User | null;
 };
 
 export const AnalysisDetailsPDFGenerator: React.FC<PDFGeneratorProps> = ({
   tests,
   testDate,
+  user,
 }) => {
   const decodedDate = decodeURIComponent(testDate);
   const generatePDF = () => {
-    if (!tests || tests.length === 0) return;
+    if (!tests || tests.length === 0 || !user) return;
 
     const pdf = new jsPDF();
     pdf.setFont('Roboto-Regular');
@@ -23,6 +26,14 @@ export const AnalysisDetailsPDFGenerator: React.FC<PDFGeneratorProps> = ({
 
     pdf.setFontSize(18);
     pdf.text(tests[0].indicatorRange.indicator.testType.name, 20, yOffset);
+    yOffset += 10;
+
+    pdf.setFontSize(14);
+    pdf.text(
+      `Пацієнт: ${user.lastName} ${user.firstName} ${user.patronymic}`,
+      20,
+      yOffset
+    );
     yOffset += 10;
 
     pdf.setFontSize(14);
