@@ -1,0 +1,128 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Gender {
+  male
+  female
+}
+
+enum Role {
+  SUPER_ADMIN @map("super_admin")
+  ADMIN       @map("admin")
+  MED_WORKER  @map("med_worker")
+}
+
+enum TestStatus {
+  IN_PROGRESS @map("in_progress")
+  DONE        @map("done")
+}
+
+model Employee {
+  id              Int              @id @default(autoincrement()) @map("id")
+  firstName       String           @default("Невідомо") @map("first_name")
+  lastName        String           @default("Невідомо") @map("last_name")
+  email           String           @unique @map("email")
+  password        String           @map("password")
+  role            Role             @default(MED_WORKER) @map("role")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  createdBy       Employee?        @relation("EmployeeCreatedBy", fields: [createdById], references: [id])
+  createdById     Int?             @map("created_by_id")
+  EmployeeCreated Employee[]       @relation("EmployeeCreatedBy")
+  TestType        TestType[]
+  Indicator       Indicator[]
+  IndicatorRange  IndicatorRange[]
+  Test            Test[]
+  User            User[]
+
+  @@map("employee")
+}
+
+model User {
+  id         Int      @id @default(autoincrement()) @map("id")
+  document   String   @default("Невідомо") @map("document")
+  firstName  String   @map("first_name")
+  lastName   String   @map("last_name")
+  patronymic String   @map("patronymic")
+  email      String   @unique @map("email")
+  gender     Gender   @map("gender")
+  birthDate  DateTime @map("birth_date")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  tests      Test[]
+
+  createdBy   Employee? @relation(fields: [createdById], references: [id])
+  createdById Int?      @map("created_by_id")
+
+  @@map("user")
+}
+
+model TestType {
+  id          Int         @id @default(autoincrement()) @map("id")
+  name        String      @unique @map("name")
+  description String?     @map("description")
+  createdBy   Employee?   @relation(fields: [createdById], references: [id])
+  createdById Int?        @map("created_by_id")
+  indicators  Indicator[]
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @default(now()) @updatedAt @map("updated_at")
+
+  @@map("test_type")
+}
+
+model Indicator {
+  id          Int              @id @default(autoincrement()) @map("id")
+  testTypeId  Int              @map("test_type_id")
+  testType    TestType         @relation(fields: [testTypeId], references: [id])
+  name        String           @map("name")
+  unit        String           @map("unit")
+  description String?          @map("description")
+  createdBy   Employee?        @relation(fields: [createdById], references: [id])
+  createdById Int?             @map("created_by_id")
+  ranges      IndicatorRange[]
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @default(now()) @updatedAt @map("updated_at")
+
+  @@map("indicator")
+}
+
+model IndicatorRange {
+  id          Int       @id @default(autoincrement()) @map("id")
+  indicatorId Int       @map("indicator_id")
+  indicator   Indicator @relation(fields: [indicatorId], references: [id])
+  gender      Gender    @map("gender")
+  minValue    Float?    @map("min_value")
+  maxValue    Float?    @map("max_value")
+  result      String?   @map("result")
+  createdBy   Employee? @relation(fields: [createdById], references: [id])
+  createdById Int?      @map("created_by_id")
+  tests       Test[]
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  @@map("indicator_range")
+}
+
+model Test {
+  id               Int            @id @default(autoincrement()) @map("id")
+  userId           Int            @map("user_id")
+  user             User           @relation(fields: [userId], references: [id])
+  indicatorRangeId Int            @map("indicator_range_id")
+  indicatorRange   IndicatorRange @relation(fields: [indicatorRangeId], references: [id])
+  resultValue      Float?         @map("result_value")
+  resultText       String?        @map("result_text")
+  status           TestStatus     @default(IN_PROGRESS) @map("status")
+  testDate         DateTime       @map("test_date")
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime       @updatedAt @map("updated_at")
+  createdBy        Employee?      @relation(fields: [createdById], references: [id])
+  createdById      Int?           @map("created_by_id")
+
+  @@map("test")
+}
